@@ -7,7 +7,7 @@ import {
   useScroll,
   useMotionValueEvent,
 } from "motion/react";
-
+import Logo from "../../assets/Logo/Logo.svg";
 import React, { useRef, useState } from "react";
 
 
@@ -86,8 +86,9 @@ export const NavItems = ({
   return (
     <motion.div
       onMouseLeave={() => setHovered(null)}
+      style={{zIndex: 2147483647}}
       className={cn(
-        "absolute inset-0 hidden flex-1 flex-row items-center justify-center space-x-2 text-sm font-medium text-zinc-600 transition duration-200 hover:text-zinc-800 lg:flex lg:space-x-2",
+        " absolute inset-0 hidden flex-1 flex-row items-center justify-center space-x-2 text-sm font-medium text-zinc-600 transition duration-200 hover:text-zinc-800 lg:flex lg:space-x-2",
         className
       )}>
       {items.map((item, idx) => (
@@ -189,7 +190,6 @@ export const MobileNavToggle = ({
   );
 };
 
-import Logo from "../../assets/Logo/Logo.svg";
 
 export const NavbarLogo = () => {
   return (
