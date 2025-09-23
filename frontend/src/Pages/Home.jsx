@@ -13,6 +13,7 @@ import {
 import { useState } from "react";
 import {  CodeSnippetLogo } from "../components/core/HomePage/CodeSnippetLogo";
 import { Timeline } from "../components/core/HomePage/Timeline";
+import { motion } from "framer-motion";
 
 const Home = () => {
   const navItems = [
@@ -112,17 +113,8 @@ const HeroContent = () => {
   return (
     <div className="container mx-auto p-8 pt-24">
       
-      <div className="m-40 flex justify-center text-center">
-      <HoverBorderGradient
-        containerClassName="rounded-full"
-        as="button"
-        className="dark:bg-black bg-white text-black dark:text-white flex items-center space-x-2"
-      >
-        <CodeSnippetLogo />
-        <span>Become an Instructor</span>
-      </HoverBorderGradient>
-    </div>
-      <div className="px-4 py-10 md:py-20">
+      
+      <div className="md:py-20">
         <h1 className="relative z-10 mx-auto max-w-4xl text-center text-2xl font-bold text-slate-700 md:text-4xl lg:text-7xl dark:text-slate-300">
           {"Launch your website in hours, not days"
             .split(" ")
@@ -205,6 +197,16 @@ const HeroContent = () => {
           </div>
         </motion.div>
       </div>
+      <div className="m-40 flex justify-center text-center">
+      <HoverBorderGradient
+        containerClassName="rounded-full"
+        as="button"
+        className="dark:bg-black bg-white text-black dark:text-white flex items-center space-x-2"
+      >
+        <CodeSnippetLogo />
+        <span>Become an Instructor</span>
+      </HoverBorderGradient>
+    </div>
     </div>
   );
 };
