@@ -1,206 +1,238 @@
-import React, { useState, useEffect } from 'react'
-import { Link, matchPath, useLocation } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+"use client";;
+import { cn } from "../../lib/utils";
+import { IconMenu2, IconX } from "@tabler/icons-react";
+import {
+  motion,
+  AnimatePresence,
+  useScroll,
+  useMotionValueEvent,
+} from "motion/react";
 
-import { NavbarLinks } from "../../../data/navbar-links"
-import studyNotionLogo from '../../assets/Logo/Logo-Full-Light.png'
-import { fetchCourseCategories } from './../../services/operations/courseDetailsAPI';
-
-import ProfileDropDown from '../core/Auth/ProfileDropDown'
-import MobileProfileDropDown from '../core/Auth/MobileProfileDropDown'
-
-import { AiOutlineShoppingCart } from "react-icons/ai"
-import { MdKeyboardArrowDown } from "react-icons/md"
+import React, { useRef, useState } from "react";
 
 
+export const Navbar = ({
+  children,
+  className
+}) => {
+  const ref = useRef(null);
+  const { scrollY } = useScroll({
+    target: ref,
+    offset: ["start start", "end start"],
+  });
+  const [visible, setVisible] = useState(false);
 
-
-const Navbar = () => {
-    // console.log("Printing base url: ", import.meta.env.VITE_APP_BASE_URL);
-    const { token } = useSelector((state) => state.auth);
-    const { user } = useSelector((state) => state.profile);
-    // console.log('USER data from Navbar (store) = ', user)
-    const { totalItems } = useSelector((state) => state.cart)
-    const location = useLocation();
-
-    const [subLinks, setSubLinks] = useState([]);
-    const [loading, setLoading] = useState(false);
-
-
-    const fetchSublinks = async () => {
-        try {
-            setLoading(true)
-            const res = await fetchCourseCategories();
-            // const result = await apiConnector("GET", categories.CATEGORIES_API);
-            // const result = await apiConnector('GET', 'http://localhost:4000/api/v1/course/showAllCategories');
-            // console.log("Printing Sublinks result:", result);
-            setSubLinks(res);
-        }
-        catch (error) {
-            console.log("Could not fetch the category list = ", error);
-        }
-        setLoading(false)
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    if (latest > 100) {
+      setVisible(true);
+    } else {
+      setVisible(false);
     }
+  });
 
-    // console.log('data of store  = ', useSelector((state)=> state))
+  return (
+    <motion.div
+      ref={ref}
+      // IMPORTANT: Change this to class of `fixed` if you want the navbar to be fixed
+      className={cn("sticky inset-x-0 top-0 z-40 w-full", className)}>
+      {React.Children.map(children, (child) =>
+        React.isValidElement(child)
+          ? React.cloneElement(child, { visible })
+          : child)}
+    </motion.div>
+  );
+};
 
+export const NavBody = ({
+  children,
+  className,
+  visible
+}) => {
+  return (
+    <motion.div
+      animate={{
+        backdropFilter: visible ? "blur(10px)" : "none",
+        boxShadow: visible
+          ? "0 0 24px rgba(34, 42, 53, 0.06), 0 1px 1px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(34, 42, 53, 0.04), 0 0 4px rgba(34, 42, 53, 0.08), 0 16px 68px rgba(47, 48, 55, 0.05), 0 1px 0 rgba(255, 255, 255, 0.1) inset"
+          : "none",
+        width: visible ? "40%" : "100%",
+        y: visible ? 20 : 0,
+      }}
+      transition={{
+        type: "spring",
+        stiffness: 200,
+        damping: 50,
+      }}
+      style={{
+        minWidth: "800px",
+      }}
+      className={cn(
+        "relative z-[60] mx-auto hidden w-full max-w-7xl flex-row items-center justify-between self-start rounded-full bg-transparent px-4 py-2 lg:flex dark:bg-transparent",
+        visible && "bg-white/80 dark:bg-neutral-950/80",
+        className
+      )}>
+      {children}
+    </motion.div>
+  );
+};
 
-    useEffect(() => {
-        fetchSublinks();
-    }, [])
+export const NavItems = ({
+  items,
+  className,
+  onItemClick
+}) => {
+  const [hovered, setHovered] = useState(null);
 
+  return (
+    <motion.div
+      onMouseLeave={() => setHovered(null)}
+      className={cn(
+        "absolute inset-0 hidden flex-1 flex-row items-center justify-center space-x-2 text-sm font-medium text-zinc-600 transition duration-200 hover:text-zinc-800 lg:flex lg:space-x-2",
+        className
+      )}>
+      {items.map((item, idx) => (
+        <a
+          onMouseEnter={() => setHovered(idx)}
+          onClick={onItemClick}
+          className="relative px-4 py-2 text-neutral-600 dark:text-neutral-300"
+          key={`link-${idx}`}
+          href={item.link}>
+          {hovered === idx && (
+            <motion.div
+              layoutId="hovered"
+              className="absolute inset-0 h-full w-full rounded-full bg-gray-100 dark:bg-neutral-800" />
+          )}
+          <span className="relative z-20">{item.name}</span>
+        </a>
+      ))}
+    </motion.div>
+  );
+};
 
-    // when user click Navbar link then it will hold yellow color
-    const matchRoute = (route) => {
-        return matchPath({ path: route }, location.pathname);
-    }
+export const MobileNav = ({
+  children,
+  className,
+  visible
+}) => {
+  return (
+    <motion.div
+      animate={{
+        backdropFilter: visible ? "blur(10px)" : "none",
+        boxShadow: visible
+          ? "0 0 24px rgba(34, 42, 53, 0.06), 0 1px 1px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(34, 42, 53, 0.04), 0 0 4px rgba(34, 42, 53, 0.08), 0 16px 68px rgba(47, 48, 55, 0.05), 0 1px 0 rgba(255, 255, 255, 0.1) inset"
+          : "none",
+        width: visible ? "90%" : "100%",
+        paddingRight: visible ? "12px" : "0px",
+        paddingLeft: visible ? "12px" : "0px",
+        borderRadius: visible ? "4px" : "2rem",
+        y: visible ? 20 : 0,
+      }}
+      transition={{
+        type: "spring",
+        stiffness: 200,
+        damping: 50,
+      }}
+      className={cn(
+        "relative z-50 mx-auto flex w-full max-w-[calc(100vw-2rem)] flex-col items-center justify-between bg-transparent px-0 py-2 lg:hidden",
+        visible && "bg-white/80 dark:bg-neutral-950/80",
+        className
+      )}>
+      {children}
+    </motion.div>
+  );
+};
 
+export const MobileNavHeader = ({
+  children,
+  className
+}) => {
+  return (
+    <div
+      className={cn("flex w-full flex-row items-center justify-between", className)}>
+      {children}
+    </div>
+  );
+};
 
-    // when user scroll down , we will hide navbar , and if suddenly scroll up , we will show navbar 
-    const [showNavbar, setShowNavbar] = useState('top');
-    const [lastScrollY, setLastScrollY] = useState(0);
-    useEffect(() => {
-        window.addEventListener('scroll', controlNavbar);
+export const MobileNavMenu = ({
+  children,
+  className,
+  isOpen,
+  onClose
+}) => {
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className={cn(
+            "absolute inset-x-0 top-16 z-50 flex w-full flex-col items-start justify-start gap-4 rounded-lg bg-white px-4 py-8 shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] dark:bg-neutral-950",
+            className
+          )}>
+          {children}
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+};
 
-        return () => {
-            window.removeEventListener('scroll', controlNavbar);
-        }
-    },)
+export const MobileNavToggle = ({
+  isOpen,
+  onClick
+}) => {
+  return isOpen ? (
+    <IconX className="text-black dark:text-white" onClick={onClick} />
+  ) : (
+    <IconMenu2 className="text-black dark:text-white" onClick={onClick} />
+  );
+};
 
-    // control Navbar
-    const controlNavbar = () => {
-        if (window.scrollY > 200) {
-            if (window.scrollY > lastScrollY)
-                setShowNavbar('hide')
+import Logo from "../../assets/Logo/Logo.svg";
 
-            else setShowNavbar('show')
-        }
+export const NavbarLogo = () => {
+  return (
+    <a
+      href="#"
+      className="relative z-20 mr-4 flex items-center space-x-2 px-2 py-1 text-sm font-normal text-black">
+      <img
+        // src="../../assets/Logo/Logo.svg"
+        src={Logo}
+        alt="logo"
+        width={30}
+        height={30} />
+      <span className="font-medium text-black dark:text-white">CodeSnippet</span>
+    </a>
+  );
+};
 
-        else setShowNavbar('top')
+export const NavbarButton = ({
+  href,
+  as: Tag = "a",
+  children,
+  className,
+  variant = "primary",
+  ...props
+}) => {
+  const baseStyles =
+    "px-4 py-2 rounded-md bg-white button bg-white text-black text-sm font-bold relative cursor-pointer hover:-translate-y-0.5 transition duration-200 inline-block text-center";
 
-        setLastScrollY(window.scrollY);
-    }
+  const variantStyles = {
+    primary:
+      "shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset]",
+    secondary: "bg-transparent shadow-none dark:text-white",
+    dark: "bg-black text-white shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset]",
+    gradient:
+      "bg-gradient-to-b from-blue-500 to-blue-700 text-white shadow-[0px_2px_0px_0px_rgba(255,255,255,0.3)_inset]",
+  };
 
-
-
-    return (
-        <nav className={`z-[10] flex h-14 w-full items-center justify-center border-b-[1px] border-b-richblack-700 text-white translate-y-0 transition-all ${showNavbar} `}>
-             {/* <nav className={` fixed flex items-center justify-center w-full h-16 z-[10] translate-y-0 transition-all text-white ${showNavbar}`}> */}
-            <div className='flex w-11/12 max-w-maxContent items-center justify-between '>
-                {/* logo */}
-                <div className='flex items-center gap-2 font-bold text-lg'>
-                <Link to="/">
-                    <img  src={studyNotionLogo} width={40} height={35} loading='lazy' />
-                    
-                </Link>
-                <p>PathShala</p>
-                </div>
-
-                {/* Nav Links - visible for only large devices*/}
-                <ul className='hidden sm:flex gap-x-6 text-richblack-25'>
-                    {
-                        NavbarLinks.map((link, index) => (
-                            <li key={index}>
-                                {
-                                    link.title === "Catalog" ? (
-                                        <div
-                                            className={`group relative flex cursor-pointer items-center gap-1 ${matchRoute("/catalog/:catalogName")
-                                                ? "bg-yellow-25 text-black rounded-xl p-1 px-3"
-                                                : "text-richblack-25 rounded-xl p-1 px-3"
-                                                }`}
-                                        >
-                                            <p>{link.title}</p>
-                                            <MdKeyboardArrowDown />
-                                            {/* drop down menu */}
-                                            <div className="invisible absolute left-[50%] top-[50%] z-[1000] flex w-[200px] translate-x-[-50%] translate-y-[3em] 
-                                                    flex-col rounded-lg bg-richblack-5 p-4 text-richblack-900 opacity-0 transition-all duration-150 group-hover:visible 
-                                                    group-hover:translate-y-[1.65em] group-hover:opacity-100 lg:w-[300px]"
-                                            >
-                                                <div className="absolute left-[50%] top-0 z-[100] h-6 w-6 translate-x-[80%] translate-y-[-40%] rotate-45 select-none rounded bg-richblack-5"></div>
-                                                {loading ? (<p className="text-center ">Loading...</p>)
-                                                    : subLinks.length ? (
-                                                        <>
-                                                            {subLinks?.map((subLink, i) => (
-                                                                <Link
-                                                                    to={`/catalog/${subLink.name
-                                                                        .split(" ")
-                                                                        .join("-")
-                                                                        .toLowerCase()}`}
-                                                                    className="rounded-lg bg-transparent py-4 pl-4 hover:bg-richblack-50"
-                                                                    key={i}
-                                                                >
-                                                                    <p>{subLink.name}</p>
-                                                                </Link>
-                                                            ))}
-                                                        </>
-                                                    ) : (
-                                                        <p className="text-center">No Courses Found</p>
-                                                    )}
-                                            </div>
-                                        </div>
-                                    ) : (
-                                        <Link to={link?.path}>
-                                            <p className={`${matchRoute(link?.path) ? "bg-yellow-25 text-black" : "text-richblack-25"} rounded-xl p-1 px-3 `}>
-                                                {link.title}
-                                            </p>
-                                        </Link>)
-                                }
-                            </li>
-                        ))}
-                </ul>
-
-
-
-
-                {/* Login/SignUp/Dashboard */}
-                <div className='flex gap-x-4 items-center'>
-                    {
-                        user && user?.accountType !== "Instructor" && (
-                            <Link to="/dashboard/cart" className="relative">
-                                <AiOutlineShoppingCart className="text-[2.35rem] text-richblack-5 hover:bg-richblack-700 rounded-full p-2 duration-200" />
-                                {totalItems > 0 && (
-                                    <span className="absolute -bottom-2 -right-2 grid h-5 w-5 place-items-center overflow-hidden rounded-full bg-richblack-600 text-center text-xs font-bold text-yellow-100">
-                                        {totalItems}
-                                    </span>
-                                )}
-                            </Link>
-                        )
-                    }
-                    {
-                        token === null && (
-                            <Link to="/login">
-                                {/* <button className='border border-richblack-700 bg-richblack-800 px-[12px] py-[8px] text-richblack-100 rounded-md focus:outline-8 outline-yellow-50'> */}
-                                <button className={` px-[12px] py-[8px] text-richblack-100 rounded-md 
-                                 ${matchRoute('/login') ? 'border-[2.5px] border-yellow-50' : 'border border-richblack-700 bg-richblack-800'} `}
-                                >
-                                    Log in
-                                </button>
-                            </Link>
-                        )
-                    }
-                    {
-                        token === null && (
-                            <Link to="/signup">
-                                {/* <button className='border border-richblack-700 bg-richblack-800 px-[12px] py-[8px] text-richblack-100 rounded-md'> */}
-                                <button className={` px-[12px] py-[8px] text-richblack-100 rounded-md 
-                                 ${matchRoute('/signup') ? 'border-[2.5px] border-yellow-50' : 'border border-richblack-700 bg-richblack-800'} `}
-                                >
-                                    Sign Up
-                                </button>
-                            </Link>
-                        )
-                    }
-
-                    {/* for large devices */}
-                    {token !== null && <ProfileDropDown />}
-
-                    {/* for small devices */}
-                    {token !== null && <MobileProfileDropDown />}
-
-                </div>
-            </div>
-        </nav>
-    )
-}
-
-export default Navbar
+  return (
+    <Tag
+      href={href || undefined}
+      className={cn(baseStyles, variantStyles[variant], className)}
+      {...props}>
+      {children}
+    </Tag>
+  );
+};

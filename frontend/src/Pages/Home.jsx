@@ -1,208 +1,212 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-
-import HighlightText from "../components/core/HomePage/HighlightText";
-import CTAButton from "../components/core/HomePage/Button";
-import CodeBlocks from "../components/core/HomePage/CodeBlocks";
-import Footer from "../components/common/Footer";
-import Banner from "../assets/Images/banner.mp4";
-
-import { FaArrowRight } from "react-icons/fa";
-
-import { motion } from "framer-motion";
-import { fadeIn } from "./../components/common/motionFrameVarients";
-
-import backgroundImg1 from "../assets/Images/random bg img/coding bg1.jpg";
-import backgroundImg2 from "../assets/Images/random bg img/coding bg2.jpg";
-import backgroundImg3 from "../assets/Images/random bg img/coding bg3.jpg";
-import backgroundImg4 from "../assets/Images/random bg img/coding bg4.jpg";
-import backgroundImg5 from "../assets/Images/random bg img/coding bg5.jpg";
-import backgroundImg6 from "../assets/Images/random bg img/coding bg6.jpeg";
-import backgroundImg7 from "../assets/Images/random bg img/coding bg7.jpg";
-import backgroundImg8 from "../assets/Images/random bg img/coding bg8.jpeg";
-import backgroundImg9 from "../assets/Images/random bg img/coding bg9.jpg";
-import backgroundImg10 from "../assets/Images/random bg img/coding bg10.jpg";
-import backgroundImg111 from "../assets/Images/random bg img/coding bg11.jpg";
-
-const randomImges = [
-  backgroundImg1,
-  backgroundImg2,
-  backgroundImg3,
-  backgroundImg4,
-  backgroundImg5,
-  backgroundImg6,
-  backgroundImg7,
-  backgroundImg8,
-  backgroundImg9,
-  backgroundImg10,
-  backgroundImg111,
-];
+import { HoverBorderGradient } from "../components/common/GradientButton";
+import {
+  Navbar,
+  NavBody,
+  NavItems,
+  MobileNav,
+  NavbarLogo,
+  NavbarButton,
+  MobileNavHeader,
+  MobileNavToggle,
+  MobileNavMenu,
+} from "../components/common/Navbar";
+import { useState } from "react";
+import {  CodeSnippetLogo } from "../components/core/HomePage/CodeSnippetLogo";
+import { Timeline } from "../components/core/HomePage/Timeline";
 
 const Home = () => {
-  const [backgroundImg, setBackgroundImg] = useState(null);
+  const navItems = [
+    {
+      name: "About Us",
+      link: "#aboutUs",
+    },
+    {
+      name: "Catalog",
+      link: "#catalog",
+      dropdown: [
+        { name: "Electronics", link: "#electronics" },
+        { name: "Clothing", link: "#clothing" },
+        { name: "Home & Garden", link: "#home-garden" },
+        { name: "Sports", link: "#sports" },
+        { name: "Books", link: "#books" },
+        { name: "Toys", link: "#toys" },
+      ],
+    },
+    {
+      name: "Contact",
+      link: "#contact",
+    },
+  ]
 
-  useEffect(() => {
-    const bg = randomImges[Math.floor(Math.random() * randomImges.length)];
-    setBackgroundImg(bg);
-  }, []);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   return (
-    <React.Fragment>
-      {/* background random image */}
-      <div>
-        <div className="w-full h-[450px] md:h-[650px] absolute top-0 left-0 opacity-[0.3] overflow-hidden object-cover ">
-          <div className="mx-3 mt-[50rem] my-7 shadow-[10px_-5px_50px_-5px] shadow-blue-200">
-            <video muted loop autoPlay>
-              <source src={Banner} type="video/mp4" />
-            </video>
+    <div className="relative w-full">
+      <Navbar>
+        {/* Desktop Navigation */}
+        <NavBody>
+          <div className="flex items-center">
+            <NavbarLogo />
           </div>
-        </div>
-      </div>
+          <NavItems items={navItems} />
+          <div className="flex items-center gap-4">
+            <NavbarButton variant="secondary">Login</NavbarButton>
+            <NavbarButton variant="primary">Sign Up</NavbarButton>
+          </div>
+        </NavBody>
 
-      <div className=" ">
-        {/*Section1  */}
-        <div className="relative h-[450px] md:h-[550px] justify-center mx-auto flex flex-col w-11/12 max-w-maxContent items-center text-white ">
-          <Link to={"/signup"}>
-            <div
-              className="z-0 group p-1 mx-auto rounded-full bg-richblack-800 font-bold text-richblack-200
-                                        transition-all duration-200 hover:scale-95 w-fit"
-            >
-              <div
-                className="flex flex-row items-center gap-2 rounded-full px-10 py-[5px]
-                              transition-all duration-200 group-hover:bg-richblack-900"
-              >
-                <p>Become an Instructor</p>
-                <FaArrowRight />
-              </div>
+        {/* Mobile Navigation */}
+        <MobileNav>
+          <MobileNavHeader>
+            <div className="flex items-center">
+              <NavbarLogo />
             </div>
-          </Link>
+            <MobileNavToggle isOpen={isMobileMenuOpen} onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} />
+          </MobileNavHeader>
 
-          <motion.div
-            variants={fadeIn("left", 0.1)}
-            initial="hidden"
-            whileInView={"show"}
-            viewport={{ once: false, amount: 0.1 }}
-            className="text-center text-3xl lg:text-4xl font-semibold mt-7  "
-          >
-            Empower Your Future with
-            <HighlightText text={"Coding Skills"} />
-          </motion.div>
-
-          <motion.div
-            variants={fadeIn("right", 0.1)}
-            initial="hidden"
-            whileInView={"show"}
-            viewport={{ once: false, amount: 0.1 }}
-            className=" mt-4 w-[90%] text-center text-base lg:text-lg font-bold text-richblack-300"
-          >
-            With our online coding courses, you can learn at your own pace, from
-            anywhere in the world, and get access to a wealth of resources,
-            including hands-on projects, quizzes, and personalized feedback from
-            instructors.
-          </motion.div>
-
-          <div className="flex flex-row gap-7 mt-8">
-            <CTAButton active={true} linkto={"/signup"}>
-              Learn More
-            </CTAButton>
-
-            <CTAButton active={false} linkto={"/login"}>
-              Book a Demo
-            </CTAButton>
-          </div>
-        </div>
-
-        {/* animated code */}
-        <div className="relative mx-auto flex flex-col w-11/12 max-w-maxContent items-center text-white justify-between">
-          {/* Code block 1 */}
-          <div className="">
-            <CodeBlocks
-              position={"lg:flex-row"}
-              heading={
-                <div className="text-3xl lg:text-4xl font-semibold">
-                  Unlock Your
-                  <HighlightText text={"coding potential "} />
-                  with our online courses
-                </div>
-              }
-              subheading={
-                "Our courses are designed and taught by industry experts who have years of experience in coding and are passionate about sharing their knowledge with you."
-              }
-              ctabtn1={{
-                btnText: "try it yourself",
-                linkto: "/signup",
-                active: true,
-              }}
-              ctabtn2={{
-                btnText: "learn more",
-                linkto: "/login",
-                active: false,
-              }}
-              codeblock={`<<!DOCTYPE html>\n<html>\n<head><title>Example</title>\n</head>\n<body>\n<h1><ahref="/">Header</a>\n</h1>\n<nav><ahref="one/">One</a><ahref="two/">Two</a><ahref="three/">Three</a>\n</nav>`}
-              codeColor={"text-yellow-25"}
-              backgroundGradient={"code-block1-grad"}
-            />
-          </div>
-
-          {/* Code block 2 */}
-          <div>
-            <CodeBlocks
-              position={"lg:flex-row-reverse"}
-              heading={
-                <div className="w-[100%] text-3xl lg:text-4xl font-semibold lg:w-[50%]">
-                  Start
-                  <HighlightText text={"coding in seconds"} />
-                </div>
-              }
-              subheading={
-                "Go ahead, give it a try. Our hands-on learning environment means you'll be writing real code from your very first lesson."
-              }
-              ctabtn1={{
-                btnText: "Continue Lesson",
-                link: "/signup",
-                active: true,
-              }}
-              ctabtn2={{
-                btnText: "Learn More",
-                link: "/signup",
-                active: false,
-              }}
-              codeColor={"text-white"}
-              codeblock={`import React from "react";\n import CTAButton from "./Button";\nimport TypeAnimation from "react-type";\nimport { FaArrowRight } from "react-icons/fa";\n\nconst Home = () => {\nreturn (\n<div>Home</div>\n)\n}\nexport default Home;`}
-              backgroundGradient={"code-block2-grad"}
-            />
-          </div>
-
-          {/* course slider */}
-          {/* <div className="mx-auto box-content w-full max-w-maxContentTab px- py-12 lg:max-w-maxContent">
-            <h2 className="text-white mb-6 text-2xl ">
-              Popular Picks for You 🏆
-            </h2>
-            <Course_Slider
-              Courses={CatalogPageData?.selectedCategory?.courses}
-            />
-          </div>
-          <div className=" mx-auto box-content w-full max-w-maxContentTab px- py-12 lg:max-w-maxContent">
-            <h2 className="text-white mb-6 text-2xl ">
-              Top Enrollments Today 🔥
-            </h2>
-            <Course_Slider Courses={CatalogPageData?.mostSellingCourses} />
-          </div> */}
-
-          {/* <ExploreMore /> */}
-        </div>
-
-        {/*Section 2  */}
-        
-
-        {/*Section 3 */}
-      
-
-        {/*Footer */}
-        <Footer />
-      </div>
-    </React.Fragment>
-  );
+          <MobileNavMenu isOpen={isMobileMenuOpen} onClose={() => setIsMobileMenuOpen(false)}>
+            {navItems.map((item, idx) => (
+              <div key={`mobile-nav-${idx}`} className="w-full">
+                <a
+                  href={item.link}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="relative block text-neutral-600 dark:text-neutral-300"
+                >
+                  <span className="block">{item.name}</span>
+                </a>
+                {item.dropdown && (
+                  <div className="ml-4 mt-2 space-y-2">
+                    {item.dropdown.map((dropdownItem, dropdownIdx) => (
+                      <a
+                        key={`mobile-dropdown-${idx}-${dropdownIdx}`}
+                        href={dropdownItem.link}
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className="block text-sm text-neutral-500 dark:text-neutral-400"
+                      >
+                        {dropdownItem.name}
+                      </a>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ))}
+            <div className="flex w-full flex-col gap-4">
+              <NavbarButton onClick={() => setIsMobileMenuOpen(false)} variant="primary" className="w-full">
+                Login
+              </NavbarButton>
+              <NavbarButton onClick={() => setIsMobileMenuOpen(false)} variant="primary" className="w-full">
+                Sign Up
+              </NavbarButton>
+            </div>
+          </MobileNavMenu>
+        </MobileNav>
+      </Navbar>
+      <HeroContent />
+    </div>
+  )
 };
 
 export default Home;
+
+const HeroContent = () => {
+  return (
+    <div className="container mx-auto p-8 pt-24">
+      
+      <div className="m-40 flex justify-center text-center">
+      <HoverBorderGradient
+        containerClassName="rounded-full"
+        as="button"
+        className="dark:bg-black bg-white text-black dark:text-white flex items-center space-x-2"
+      >
+        <CodeSnippetLogo />
+        <span>Become an Instructor</span>
+      </HoverBorderGradient>
+    </div>
+      <div className="px-4 py-10 md:py-20">
+        <h1 className="relative z-10 mx-auto max-w-4xl text-center text-2xl font-bold text-slate-700 md:text-4xl lg:text-7xl dark:text-slate-300">
+          {"Launch your website in hours, not days"
+            .split(" ")
+            .map((word, index) => (
+              <motion.span
+                key={index}
+                initial={{ opacity: 0, filter: "blur(4px)", y: 10 }}
+                animate={{ opacity: 1, filter: "blur(0px)", y: 0 }}
+                transition={{
+                  duration: 0.3,
+                  delay: index * 0.1,
+                  ease: "easeInOut",
+                }}
+                className="mr-2 inline-block"
+              >
+                {word}
+              </motion.span>
+            ))}
+        </h1>
+        <motion.p
+          initial={{
+            opacity: 0,
+          }}
+          animate={{
+            opacity: 1,
+          }}
+          transition={{
+            duration: 0.3,
+            delay: 0.8,
+          }}
+          className="relative z-10 mx-auto max-w-xl py-4 text-center text-lg font-normal text-neutral-600 dark:text-neutral-400"
+        >
+          With AI, you can launch your website in hours, not days. Try our best
+          in class, state of the art, cutting edge AI tools to get your website
+          up.
+        </motion.p>
+        <motion.div
+          initial={{
+            opacity: 0,
+          }}
+          animate={{
+            opacity: 1,
+          }}
+          transition={{
+            duration: 0.3,
+            delay: 1,
+          }}
+          className="relative z-10 mt-8 flex flex-wrap items-center justify-center gap-4"
+        >
+          <button className="w-60 transform rounded-lg bg-black px-6 py-2 font-medium text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200">
+            Explore Now
+          </button>
+          <button className="w-60 transform rounded-lg border border-gray-300 bg-white px-6 py-2 font-medium text-black transition-all duration-300 hover:-translate-y-0.5 hover:bg-gray-100 dark:border-gray-700 dark:bg-black dark:text-white dark:hover:bg-gray-900">
+            Contact Support
+          </button>
+        </motion.div>
+        <motion.div
+          initial={{
+            opacity: 0,
+            y: 10,
+          }}
+          animate={{
+            opacity: 1,
+            y: 0,
+          }}
+          transition={{
+            duration: 0.3,
+            delay: 1.2,
+          }}
+          className="relative z-10 mt-20 rounded-3xl border border-neutral-200 bg-neutral-100 p-4 shadow-md dark:border-neutral-800 dark:bg-neutral-900"
+        >
+          <div className="w-full overflow-hidden rounded-xl border border-gray-300 dark:border-gray-700">
+            <img
+              src="https://assets.aceternity.com/pro/aceternity-landing.webp"
+              alt="Landing page preview"
+              className="aspect-[16/9] h-auto w-full object-cover"
+              height={1000}
+              width={1000}
+            />
+          </div>
+        </motion.div>
+      </div>
+    </div>
+  );
+};
+
+
