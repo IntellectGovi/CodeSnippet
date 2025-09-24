@@ -145,7 +145,7 @@ function App() {
           </MobileNavMenu>
         </MobileNav>
       </Navbar>
-      <Routes>
+      <Routes> 
         <Route path="/" element={<Home />} />
         <Route path="/aboutUs" element={<About />} />
         <Route path="/contact" element={<Contact />} />
