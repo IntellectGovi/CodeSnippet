@@ -1,8 +1,8 @@
 "use client";
 import * as React from "react";
-import { Label } from "../../UI/Label";
-import { Input } from "../../UI/Input";
-import { Textarea } from "../../UI/TextArea";
+import { Input } from "../../ui/Input";
+import { Textarea } from "../../ui/Textarea";
+import { Label } from "../../ui/Label";
 import { cn } from "../../../lib/utils";
 import {
   IconBrandGithub,
