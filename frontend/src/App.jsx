@@ -27,7 +27,7 @@ function App() {
       link: "aboutUs",
     },
     {
-      name: "Catalog",
+      name: "Catalog ↓",
       dropdown: [
         { name: "Electronics", link: "#electronics" },
         { name: "Clothing", link: "#clothing" },
