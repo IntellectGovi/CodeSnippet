@@ -13,11 +13,12 @@ import {
   MobileNavToggle,
   MobileNavMenu,
 } from "../src/components/common/Navbar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MainFooter } from "./components/common/MainFooter";
 import Contact from "./Pages/Contact";
 import Login from "./Pages/Login";
 import SignUp from "./Pages/SignUp";
+import Preloader from "./components/PreLoader/PreLoader";
 function App() {
   const navItems = [
     {
@@ -45,9 +46,24 @@ function App() {
     },
   ];
 
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
   const navigate = useNavigate();
+
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [isLoadedOnce, setIsLoadedOnce] = useState(false);
+
+  useEffect(() => {
+    if (location.pathname === "/" && isLoadedOnce) {
+      setLoading(true);
+      setIsLoadedOnce(true);
+      // const timer = setTimeout(() => {
+      //   setLoading(false);
+      // }, 3000);
+      // return () => clearTimeout(timer)
+    } else {
+      setLoading(false);
+    }
+  }, [location, isLoadedOnce]);
   return (
     <>
       <Navbar>
@@ -100,8 +116,8 @@ function App() {
                   >
                     <span className="block">{item.name}</span>
                   </a>
-{console.log("item?.dropdownitem?.dropdown", item?.dropdown)}
-                  {item?.dropdown?.length>0 && (
+                  {console.log("item?.dropdownitem?.dropdown", item?.dropdown)}
+                  {item?.dropdown?.length > 0 && (
                     <div className="ml-4 mt-2 space-y-2">
                       {item?.dropdown?.map((dropdownItem, dropdownIdx) => {
                         return (
@@ -145,8 +161,11 @@ function App() {
           </MobileNavMenu>
         </MobileNav>
       </Navbar>
-      <Routes> 
-        <Route path="/" element={<Home />} />
+      {loading && <Preloader onComplete={() => setLoading(false)} />}
+      <Routes>
+        <>
+          <Route path="/" element={<Home />} />
+        </>
         <Route path="/aboutUs" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/login" element={<Login />} />

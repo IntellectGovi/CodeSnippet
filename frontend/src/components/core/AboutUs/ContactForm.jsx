@@ -1,14 +1,15 @@
 "use client";
 import * as React from "react";
-import { Input } from "../../ui/Input";
-import { Textarea } from "../../ui/Textarea";
-import { Label } from "../../ui/Label";
+
 import { cn } from "../../../lib/utils";
 import {
   IconBrandGithub,
   IconBrandGoogle,
   IconBrandOnlyfans,
 } from "@tabler/icons-react";
+import { Label } from "../../UI/Label";
+import { Input } from "../../UI/Input";
+import { Textarea } from "../../UI/TextArea";
 
 export default function Form({ type }) {
   const [userType, setUserType] = React.useState("student");

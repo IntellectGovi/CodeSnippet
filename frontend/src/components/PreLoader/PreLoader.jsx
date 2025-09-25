@@ -5,14 +5,13 @@ import { motion } from "framer-motion";
 const Preloader = ({ onComplete }) => {
   const [progress, setProgress] = useState(0);
   const [exiting, setExiting] = useState(false);
-  const finishedRef = useRef(false); // ensure onComplete called once
+  const finishedRef = useRef(false); 
 
   useEffect(() => {
     const interval = setInterval(() => {
       setProgress((p) => {
         if (p >= 100) {
           clearInterval(interval);
-          // small pause so user sees 100% for a moment
           setTimeout(() => setExiting(true), 300);
           return 100;
         }
