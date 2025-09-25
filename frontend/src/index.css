@@ -1,8 +1,20 @@
 @import "tailwindcss";
 
+/* For Chrome, Safari, Edge */
+::-webkit-scrollbar {
+  display: none;
+}
+
+/* For Firefox */
+html {
+  scrollbar-width: none; /* hides scrollbar */
+}
+
 body {
-  background:  linear-gradient(45deg,rgba(232, 70, 70, 1) 0%, rgba(255, 255, 255, 1) 10%, rgb(17, 3, 20) 69%);
+  /* background:  linear-gradient(45deg,rgba(232, 70, 70, 1) 0%, rgba(255, 255, 255, 1) 10%, rgb(17, 3, 20) 69%); */
   width: 100vw;
+  height: 100vh;
+  background:black;
   margin: 0px;
   overflow-x: hidden;
   padding: 0px;
