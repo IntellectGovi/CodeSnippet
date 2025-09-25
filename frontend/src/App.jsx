@@ -100,7 +100,7 @@ function App() {
                   >
                     <span className="block">{item.name}</span>
                   </a>
-{console.log("item?.dropdownitem?.dropdown", item)}
+{console.log("item?.dropdownitem?.dropdown", item?.dropdown)}
                   {item?.dropdown?.length>0 && (
                     <div className="ml-4 mt-2 space-y-2">
                       {item?.dropdown?.map((dropdownItem, dropdownIdx) => {

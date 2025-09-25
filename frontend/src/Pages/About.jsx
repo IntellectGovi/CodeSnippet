@@ -399,7 +399,7 @@ const About = () => {
       </BentoGrid>
 
        <div>
-        <AnimatedTestimonials testimonials={testimonials} color="white"/>
+        <AnimatedTestimonials testimonials={testimonials} NameClass="text-white dark:text-white" DesignationClass="text-white dark:text-white"/>
       </div>
     </div>
   );

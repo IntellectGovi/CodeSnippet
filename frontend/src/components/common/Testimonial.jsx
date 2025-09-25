@@ -4,7 +4,7 @@ import { IconArrowLeft, IconArrowRight } from "@tabler/icons-react";
 import { motion, AnimatePresence } from "motion/react";
 import { useEffect, useState } from "react";
 
-export const AnimatedTestimonials = ({ testimonials, autoplay = false }) => {
+export const AnimatedTestimonials = ({ testimonials, autoplay = false , NameClass , DesignationClass}) => {
   const [active, setActive] = useState(0);
 
   const handleNext = () => {
@@ -88,13 +88,13 @@ export const AnimatedTestimonials = ({ testimonials, autoplay = false }) => {
             exit={{ y: -20, opacity: 0 }}
             transition={{ duration: 0.2, ease: "easeInOut" }}
           >
-            <h3 className="text-2xl font-bold text-black dark:text-black">
+            <h3 className={`text-2xl font-bold text-black dark:text-black ${NameClass}`}>
               {testimonials[active].name}
             </h3>
-            <p className="text-sm text-gray-500 dark:text-neutral-700">
+            <p className={`text-sm text-gray-500 dark:text-neutral-700 ${DesignationClass}`}>
               {testimonials[active].designation}
             </p>
-            <motion.p className="mt-8 text-lg text-gray-500 dark:text-black-300">
+            <motion.p className={`mt-8 text-lg text-white-500 dark:text-black-300 ${DesignationClass}`}>
               {testimonials[active].quote.split(" ").map((word, index) => (
                 <motion.span
                   key={index}
