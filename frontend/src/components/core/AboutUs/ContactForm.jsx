@@ -10,10 +10,25 @@ import {
 import { Label } from "../../UI/Label";
 import { Input } from "../../UI/Input";
 import { Textarea } from "../../UI/TextArea";
+import { login } from "../../../services/apis";
 
 export default function Form({ type }) {
   const [userType, setUserType] = React.useState("student");
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
+
+    console.log(e.target[0].value)
+    debugger
+    
+    if(type === "Login"){
+      const payload = {
+        email : e.target[0].value,
+        password : e.target[1].value
+      }
+
+      const response = await login(payload);
+      debugger
+      console.log("payload" , payload);
+    }
     e.preventDefault();
     console.log("Form submitted");
   };
@@ -78,7 +93,7 @@ export default function Form({ type }) {
         )}
         <LabelInputContainer className="mb-4">
           <Label htmlFor="email">Email Address</Label>
-          <Input id="email" placeholder="projectmayhem@fc.com" type="email" />
+          <Input id="email" placeholder="yourEmail@fc.com" type="email" />
         </LabelInputContainer>
         {type === "Contact" ||
           ("SignUp" && (
@@ -106,14 +121,6 @@ export default function Form({ type }) {
               rows={4}
             />
           </LabelInputContainer>
-        )}
-
-        {console.log(
-          {
-            Contact: "Send Message",
-            SignUp: "Sign up",
-            Login: "Log in",
-          }[type]|| ""
         )}
         <button
           className="group/btn relative block h-10 w-full rounded-md bg-gradient-to-br from-black to-neutral-600 font-medium text-white shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:bg-zinc-800 dark:from-zinc-900 dark:to-zinc-900 dark:shadow-[0px_1px_0px_0px_#27272a_inset,0px_-1px_0px_0px_#27272a_inset]"
