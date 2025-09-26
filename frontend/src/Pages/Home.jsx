@@ -1,16 +1,4 @@
 import { HoverBorderGradient } from "../components/common/GradientButton";
-import {
-  Navbar,
-  NavBody,
-  NavItems,
-  MobileNav,
-  NavbarLogo,
-  NavbarButton,
-  MobileNavHeader,
-  MobileNavToggle,
-  MobileNavMenu,
-} from "../components/common/Navbar";
-import { useState } from "react";
 import { CodeSnippetLogo } from "../components/core/HomePage/CodeSnippetLogo";
 import { Timeline } from "../components/core/HomePage/Timeline";
 import { motion } from "framer-motion";
@@ -20,7 +8,6 @@ import Responsibility from "../assets/Images/random bg img/Team.jpg";
 import SolveProblem from "../assets/Images/random bg img/codePng.jpg";
 import { TypewriterEffectSmooth } from "../components/core/HomePage/TypeWritter";
 import { AnimatedTestimonials } from "../components/common/Testimonial";
-import { MainFooter } from "../components/common/MainFooter";
 
 const Home = () => {
   

@@ -1,8 +1,12 @@
-import rootReducer from "./reducers";
 import { configureStore } from "@reduxjs/toolkit";
+import authReducer from "./slices/authSlice";
+import profileReducer from "./slices/profileSlice";
+import cartReducer from "./slices/cartSlice";
+
 export const store = configureStore({
   reducer: {
-    // Add your slice reducers here
-    reducer: rootReducer,
+    auth: authReducer,
+    cart: cartReducer,
+    profile: profileReducer,
   },
 });

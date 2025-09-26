@@ -1,5 +1,11 @@
 import "./App.css";
-import { Routes, Route, useNavigate, useNavigation } from "react-router-dom";
+import {
+  Routes,
+  Route,
+  useNavigate,
+  useNavigation,
+  Link,
+} from "react-router-dom";
 import Home from "./Pages/Home";
 import About from "./Pages/About";
 import {
@@ -19,7 +25,29 @@ import Contact from "./Pages/Contact";
 import Login from "./Pages/Login";
 import SignUp from "./Pages/SignUp";
 import Preloader from "./components/PreLoader/PreLoader";
+import { useSelector } from "react-redux";
+import { CiShoppingCart } from "react-icons/ci";
+import {
+  IconActivity,
+  IconBriefcase,
+  IconChevronDown,
+  IconEdit,
+  IconHelp,
+  IconLogout,
+  IconSettings,
+  IconShoppingBag,
+  IconShoppingCart,
+  IconUser,
+} from "@tabler/icons-react";
+import { CategoryData } from "./services/apis";
+import { notify } from "./Utils/Toaster";
 function App() {
+  const { cartItems } = useSelector((state) => state.cart);
+  const { user } = useSelector((state) => state.profile);
+  const { token } = useSelector((state) => state.auth);
+
+  const [catalogList, setCatalogList] = useState([]);
+
   const navItems = [
     {
       name: "Home",
@@ -31,14 +59,7 @@ function App() {
     },
     {
       name: "Catalog ↓",
-      dropdown: [
-        { name: "Electronics", link: "#electronics" },
-        { name: "Clothing", link: "#clothing" },
-        { name: "Home & Garden", link: "#home-garden" },
-        { name: "Sports", link: "#sports" },
-        { name: "Books", link: "#books" },
-        { name: "Toys", link: "#toys" },
-      ],
+      dropdown: catalogList,
     },
     {
       name: "Contact",
@@ -51,6 +72,21 @@ function App() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [isLoadedOnce, setIsLoadedOnce] = useState(false);
+  const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
+
+  const categoryResponse = async () => {
+    try {
+      const response = await CategoryData();
+
+      if (response) {
+        notify("Response is here", "success");
+      } else {
+        notify("Error Occured", "error");
+      }
+    } catch (e) {
+      console.error("Error occured while fetching the Category", e);
+    }
+  };
 
   useEffect(() => {
     if (location.pathname === "/" && isLoadedOnce) {
@@ -64,6 +100,10 @@ function App() {
       setLoading(false);
     }
   }, [location, isLoadedOnce]);
+
+  useEffect(() => {
+    categoryResponse();
+  }, []);
   return (
     <>
       <Navbar>
@@ -73,21 +113,141 @@ function App() {
             <NavbarLogo />
           </div>
           <NavItems items={navItems} />
-          <div className="flex items-center gap-4 ">
-            <button
-              style={{ cursor: "pointer" }}
-              onClick={() => {
-                navigate("/login");
-              }}
-            >
-              <NavbarButton variant="secondary" className="cursor-pointer">
-                Login
-              </NavbarButton>
-            </button>
-            <button onClick={() => navigate("/signup")}>
-              <NavbarButton variant="primary">Sign Up</NavbarButton>
-            </button>
-          </div>
+          {!token ? (
+            <div className="flex items-center gap-4 ">
+              <button
+                style={{ cursor: "pointer" }}
+                onClick={() => {
+                  navigate("/login");
+                }}
+              >
+                <NavbarButton variant="secondary" className="cursor-pointer">
+                  Login
+                </NavbarButton>
+              </button>
+              <button onClick={() => navigate("/signup")}>
+                <NavbarButton variant="primary">Sign Up</NavbarButton>
+              </button>
+            </div>
+          ) : (
+            <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
+              <Link to="/cart">
+                <button className="relative p-2 text-neutral-600 hover:text-neutral-800 dark:text-neutral-300 dark:hover:text-neutral-100 transition-colors">
+                  <IconShoppingCart size={24} />
+                  <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                    3
+                  </span>
+                </button>
+              </Link>
+              <div className="relative">
+                <button
+                  onClick={() =>
+                    setIsProfileDropdownOpen(!isProfileDropdownOpen)
+                  }
+                  className="flex items-center gap-2 p-2 text-neutral-600 hover:text-neutral-800 dark:text-neutral-300 dark:hover:text-neutral-100 transition-colors"
+                >
+                  <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
+                    <IconUser size={18} className="text-white" />
+                  </div>
+                  <IconChevronDown
+                    size={16}
+                    className={`transition-transform ${
+                      isProfileDropdownOpen ? "rotate-180" : ""
+                    }`}
+                  />
+                </button>
+
+                {/* Profile Dropdown Menu */}
+                {isProfileDropdownOpen && (
+                  <div className="absolute right-0 top-full mt-2 w-80 bg-white dark:bg-neutral-900 rounded-lg shadow-lg border border-neutral-200 dark:border-neutral-700 z-50">
+                    {/* User Info Section */}
+                    <div className="p-4 border-b border-neutral-200 dark:border-neutral-700">
+                      <div className="flex items-center gap-3">
+                        <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
+                          <IconUser size={24} className="text-white" />
+                        </div>
+                        <div className="flex-1">
+                          <h3 className="font-semibold text-neutral-900 dark:text-neutral-100">
+                            Sahil Prasoon
+                          </h3>
+                          <p className="text-sm text-neutral-600 dark:text-neutral-400">
+                            sahilprasoon@gmail.com
+                          </p>
+                        </div>
+                        <button className="p-1 text-neutral-400 hover:text-neutral-600 dark:hover:text-neutral-300">
+                          <IconEdit size={16} />
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Menu Items */}
+                    <div className="p-2">
+                      <a
+                        href="#"
+                        className="flex items-center gap-3 px-3 py-2 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-md transition-colors"
+                      >
+                        <IconActivity size={20} />
+                        <span>Profile Activity</span>
+                      </a>
+                      <a
+                        href="#"
+                        className="flex items-center gap-3 px-3 py-2 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-md transition-colors"
+                      >
+                        <IconBriefcase size={20} />
+                        <span>Manage Projects</span>
+                      </a>
+                      <a
+                        href="#"
+                        className="flex items-center gap-3 px-3 py-2 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-md transition-colors"
+                      >
+                        <IconShoppingBag size={20} />
+                        <span>Purchases</span>
+                      </a>
+                      <a
+                        href="#"
+                        className="flex items-center gap-3 px-3 py-2 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-md transition-colors"
+                      >
+                        <IconSettings size={20} />
+                        <span>Account Settings</span>
+                      </a>
+                      <a
+                        href="#"
+                        className="flex items-center gap-3 px-3 py-2 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-md transition-colors"
+                      >
+                        <IconHelp size={20} />
+                        <span>Help Center</span>
+                      </a>
+                    </div>
+
+                    {/* Plan Status */}
+                    <div className="p-4 border-t border-neutral-200 dark:border-neutral-700">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <p className="font-medium text-neutral-900 dark:text-neutral-100">
+                            Student Plan Active
+                          </p>
+                          <p className="text-sm text-neutral-600 dark:text-neutral-400">
+                            284 Days Left
+                          </p>
+                        </div>
+                        <button className="px-3 py-1 bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300 rounded-md text-sm font-medium hover:bg-blue-200 dark:hover:bg-blue-800 transition-colors">
+                          Upgrade
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Logout */}
+                    <div className="p-2 border-t border-neutral-200 dark:border-neutral-700">
+                      <button className="flex items-center gap-3 px-3 py-2 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-md transition-colors w-full">
+                        <IconLogout size={20} />
+                        <span>Logout</span>
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
         </NavBody>
 
         {/* Mobile Navigation */}
@@ -136,28 +296,35 @@ function App() {
                 </div>
               );
             })}
-            <div className="flex w-full flex-col gap-4">
-              <NavbarButton
-                onClick={() => {
-                  setIsMobileMenuOpen(false);
-                  navigate("/login");
-                }}
-                variant="primary"
-                className="w-full"
-              >
-                Login
-              </NavbarButton>
-              <NavbarButton
-                onClick={() => {
-                  setIsMobileMenuOpen(false);
-                  navigate("/signup");
-                }}
-                variant="primary"
-                className="w-full"
-              >
-                Sign Up
-              </NavbarButton>
-            </div>
+            {!token ? (
+              <div className="flex w-full flex-col gap-4">
+                <NavbarButton
+                  onClick={() => {
+                    setIsMobileMenuOpen(false);
+                    navigate("/login");
+                  }}
+                  variant="primary"
+                  className="w-full"
+                >
+                  Login
+                </NavbarButton>
+                <NavbarButton
+                  onClick={() => {
+                    setIsMobileMenuOpen(false);
+                    navigate("/signup");
+                  }}
+                  variant="primary"
+                  className="w-full"
+                >
+                  Sign Up
+                </NavbarButton>
+              </div>
+            ) : (
+              <Link to="/cart">
+                <CiShoppingCart />
+                {cartItems > 0 && <span>{cartItems}</span>}
+              </Link>
+            )}
           </MobileNavMenu>
         </MobileNav>
       </Navbar>
