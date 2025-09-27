@@ -74,19 +74,19 @@ function App() {
   const [isLoadedOnce, setIsLoadedOnce] = useState(false);
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
 
-  const categoryResponse = async () => {
-    try {
-      const response = await CategoryData();
+  // const categoryResponse = async () => {
+  //   try {
+  //     const response = await CategoryData();
 
-      if (response) {
-        notify("Response is here", "success");
-      } else {
-        notify("Error Occured", "error");
-      }
-    } catch (e) {
-      console.error("Error occured while fetching the Category", e);
-    }
-  };
+  //     if (response) {
+  //       notify("Response is here", "success");
+  //     } else {
+  //       notify("Error Occured", "error");
+  //     }
+  //   } catch (e) {
+  //     console.error("Error occured while fetching the Category", e);
+  //   }
+  // };
 
   useEffect(() => {
     if (location.pathname === "/" && isLoadedOnce) {
@@ -101,9 +101,9 @@ function App() {
     }
   }, [location, isLoadedOnce]);
 
-  useEffect(() => {
-    categoryResponse();
-  }, []);
+  // useEffect(() => {
+  //   categoryResponse();
+  // }, []);
   return (
     <>
       <Navbar>
