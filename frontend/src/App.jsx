@@ -39,8 +39,7 @@ import {
   IconShoppingCart,
   IconUser,
 } from "@tabler/icons-react";
-import { CategoryData } from "./services/apis";
-import { notify } from "./Utils/Toaster";
+
 function App() {
   const { cartItems } = useSelector((state) => state.cart);
   const { user } = useSelector((state) => state.profile);

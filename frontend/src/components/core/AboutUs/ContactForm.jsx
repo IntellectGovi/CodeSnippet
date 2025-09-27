@@ -10,25 +10,24 @@ import {
 import { Label } from "../../UI/Label";
 import { Input } from "../../UI/Input";
 import { Textarea } from "../../UI/TextArea";
-import { login } from "../../../services/apis";
 
 export default function Form({ type }) {
   const [userType, setUserType] = React.useState("student");
   const handleSubmit = async (e) => {
 
     console.log(e.target[0].value)
-    debugger
+    // debugger
     
-    if(type === "Login"){
-      const payload = {
-        email : e.target[0].value,
-        password : e.target[1].value
-      }
+    // if(type === "Login"){
+    //   const payload = {
+    //     email : e.target[0].value,
+    //     password : e.target[1].value
+    //   }
 
-      const response = await login(payload);
-      debugger
-      console.log("payload" , payload);
-    }
+    //   const response = await login(payload);
+    //   debugger
+    //   console.log("payload" , payload);
+    // }
     e.preventDefault();
     console.log("Form submitted");
   };
