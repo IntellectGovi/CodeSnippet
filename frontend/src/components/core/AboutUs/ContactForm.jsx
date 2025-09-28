@@ -10,10 +10,15 @@ import {
 import { Label } from "../../UI/Label";
 import { Input } from "../../UI/Input";
 import { Textarea } from "../../UI/TextArea";
+import { useState } from "react";
+import { login } from "../../../services/Connections/auth";
 
 export default function Form({ type }) {
   const [userType, setUserType] = React.useState("student");
+  const [payload , setPayload] = useState({})
   const handleSubmit = async (e) => {
+
+    const formData = e.target;
 
     console.log(e.target[0].value)
     // debugger
@@ -28,8 +33,40 @@ export default function Form({ type }) {
     //   debugger
     //   console.log("payload" , payload);
     // }
-    e.preventDefault();
-    console.log("Form submitted");
+    if(type === "SignUp"){
+
+      try{
+        const otpMail = {
+          email : formData[2].value
+      }
+
+      
+      
+      }catch(e){
+
+      }
+      const payload = {
+        firstName : formData[0].value,
+        lastName : formData[1].value,
+        email : formData[2].value,
+        password : formData[3].value,
+        confirmPassword : formData[4].value,
+        accountType : userType,
+
+      }
+      console.log(payload);
+    }
+    debugger
+    if(type === "Login"){
+      const payload = {
+        email : e.target[0].value,
+        password : e.target[1].value
+      }
+
+      const response = await login(payload)
+      debugger
+
+    }
   };
 
   return (

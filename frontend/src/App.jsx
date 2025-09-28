@@ -39,6 +39,8 @@ import {
   IconShoppingCart,
   IconUser,
 } from "@tabler/icons-react";
+import { getAllCategory } from "./services/Connections/auth";
+import { notify } from "./Utils/Toaster";
 
 function App() {
   const { cartItems } = useSelector((state) => state.cart);
@@ -73,19 +75,20 @@ function App() {
   const [isLoadedOnce, setIsLoadedOnce] = useState(false);
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
 
-  // const categoryResponse = async () => {
-  //   try {
-  //     const response = await CategoryData();
+  const categoryResponse = async () => {
+    try {
+      const response = await getAllCategory();
 
-  //     if (response) {
-  //       notify("Response is here", "success");
-  //     } else {
-  //       notify("Error Occured", "error");
-  //     }
-  //   } catch (e) {
-  //     console.error("Error occured while fetching the Category", e);
-  //   }
-  // };
+      if (response?.data?.success) {
+        setCatalogList(response?.data?.data)
+        notify("Response is here", "success");
+      } else {
+        notify("Error Occured", "error");
+      }
+    } catch (e) {
+      console.error("Error occured while fetching the Category", e);
+    }
+  };
 
   useEffect(() => {
     if (location.pathname === "/" && isLoadedOnce) {
@@ -100,9 +103,10 @@ function App() {
     }
   }, [location, isLoadedOnce]);
 
-  // useEffect(() => {
-  //   categoryResponse();
-  // }, []);
+  useEffect(() => {
+    categoryResponse();
+  }, []);
+  
   return (
     <>
       <Navbar>
