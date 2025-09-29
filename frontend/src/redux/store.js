@@ -3,12 +3,14 @@ import authReducer from "./slices/authSlice";
 import profileReducer from "./slices/profileSlice";
 import cartReducer from "./slices/cartSlice";
 import loadingReducer from "./Slices/loadingSlice";
+import userReducer from "./slices/UserSlice";
 
 export const store = configureStore({
   reducer: {
     auth: authReducer,
     cart: cartReducer,
     profile: profileReducer,
-    loading : loadingReducer,
+    loading: loadingReducer,
+    user: userReducer,
   },
 });

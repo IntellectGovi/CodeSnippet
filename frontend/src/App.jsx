@@ -19,7 +19,7 @@ import {
   MobileNavToggle,
   MobileNavMenu,
 } from "../src/components/common/Navbar";
-import { useEffect, useState } from "react";
+import { Children, useEffect, useState } from "react";
 import { MainFooter } from "./components/common/MainFooter";
 import Contact from "./Pages/Contact";
 import Login from "./Pages/Login";
@@ -41,12 +41,14 @@ import {
 } from "@tabler/icons-react";
 import { getAllCategory } from "./services/Connections/auth";
 import { notify } from "./Utils/Toaster";
+import { useLocalStorage } from "./Utils/useLocalStorage";
+import Dashboard from "./Pages/Dashboard";
 
 function App() {
   const { cartItems } = useSelector((state) => state.cart);
-  const { user } = useSelector((state) => state.profile);
-  const { token } = useSelector((state) => state.auth);
 
+  const token = useLocalStorage("token", "get");
+  const userData = useLocalStorage("userData", "get");
   const [catalogList, setCatalogList] = useState([]);
 
   const navItems = [
@@ -74,16 +76,17 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [isLoadedOnce, setIsLoadedOnce] = useState(false);
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
+  console.log("isProfileDropdown", isProfileDropdownOpen);
 
   const categoryResponse = async () => {
     try {
       const response = await getAllCategory();
 
       if (response?.data?.success) {
-        setCatalogList(response?.data?.data)
-        notify("Response is here", "success");
+        setCatalogList(response?.data?.data);
+        // notify("Response is here", "success");
       } else {
-        notify("Error Occured", "error");
+        notify("Error Occured while fetching the Category", "error");
       }
     } catch (e) {
       console.error("Error occured while fetching the Category", e);
@@ -94,10 +97,6 @@ function App() {
     if (location.pathname === "/" && isLoadedOnce) {
       setLoading(true);
       setIsLoadedOnce(true);
-      // const timer = setTimeout(() => {
-      //   setLoading(false);
-      // }, 3000);
-      // return () => clearTimeout(timer)
     } else {
       setLoading(false);
     }
@@ -105,8 +104,9 @@ function App() {
 
   useEffect(() => {
     categoryResponse();
+    setIsProfileDropdownOpen(false);
   }, []);
-  
+
   return (
     <>
       <Navbar>
@@ -149,9 +149,15 @@ function App() {
                   }
                   className="flex items-center gap-2 p-2 text-neutral-600 hover:text-neutral-800 dark:text-neutral-300 dark:hover:text-neutral-100 transition-colors"
                 >
-                  <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
+                  {/* <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
                     <IconUser size={18} className="text-white" />
-                  </div>
+                  </div> */}
+                  <img
+                    src={userData?.image}
+                    alt="profile"
+                    className="w-8 h-8 rounded-full object-cover"
+                  />
+
                   <IconChevronDown
                     size={16}
                     className={`transition-transform ${
@@ -161,20 +167,24 @@ function App() {
                 </button>
 
                 {/* Profile Dropdown Menu */}
-                {isProfileDropdownOpen && (
+                {isProfileDropdownOpen === true && (
                   <div className="absolute right-0 top-full mt-2 w-80 bg-white dark:bg-neutral-900 rounded-lg shadow-lg border border-neutral-200 dark:border-neutral-700 z-50">
                     {/* User Info Section */}
                     <div className="p-4 border-b border-neutral-200 dark:border-neutral-700">
                       <div className="flex items-center gap-3">
-                        <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
-                          <IconUser size={24} className="text-white" />
+                        <div className="">
+                          <img
+                            src={userData?.image}
+                            alt="profile"
+                            className="w-8 h-8 rounded-full object-cover"
+                          />
                         </div>
                         <div className="flex-1">
                           <h3 className="font-semibold text-neutral-900 dark:text-neutral-100">
-                            Sahil Prasoon
+                            {userData?.firstName + " " + userData?.lastName}
                           </h3>
                           <p className="text-sm text-neutral-600 dark:text-neutral-400">
-                            sahilprasoon@gmail.com
+                            {userData?.email}
                           </p>
                         </div>
                         <button className="p-1 text-neutral-400 hover:text-neutral-600 dark:hover:text-neutral-300">
@@ -241,7 +251,13 @@ function App() {
 
                     {/* Logout */}
                     <div className="p-2 border-t border-neutral-200 dark:border-neutral-700">
-                      <button className="flex items-center gap-3 px-3 py-2 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-md transition-colors w-full">
+                      <button
+                        className="flex items-center gap-3 px-3 py-2 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-md transition-colors w-full"
+                        onClick={() => {
+                          localStorage.clear();
+                          navigate("/");
+                        }}
+                      >
                         <IconLogout size={20} />
                         <span>Logout</span>
                       </button>
@@ -279,7 +295,6 @@ function App() {
                   >
                     <span className="block">{item.name}</span>
                   </a>
-                  {console.log("item?.dropdownitem?.dropdown", item?.dropdown)}
                   {item?.dropdown?.length > 0 && (
                     <div className="ml-4 mt-2 space-y-2">
                       {item?.dropdown?.map((dropdownItem, dropdownIdx) => {
@@ -340,6 +355,14 @@ function App() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
       {/* FOOTER */}
       <div style={{ position: "relative", marginBottom: "0px" }}>
@@ -350,3 +373,13 @@ function App() {
 }
 
 export default App;
+
+const ProtectedRoute = ({ children }) => {
+  const navigate = useNavigate();
+  if (!useLocalStorage("token", "get")) {
+    notify("UnAuthorized Access", "error");
+    navigate("/");
+  } else {
+    return children;
+  }
+};

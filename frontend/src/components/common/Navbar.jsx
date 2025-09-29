@@ -11,9 +11,6 @@ import Logo from "../../assets/Logo/Logo.svg";
 import React, { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 
-
-
-
 export const Navbar = ({ children, className }) => {
   const ref = useRef(null);
   const { scrollY } = useScroll({
@@ -169,17 +166,27 @@ export const NavItems = ({ items, className, onItemClick }) => {
                     onMouseLeave={handleLeave}
                   >
                     <ul className="py-2">
-                      {item.dropdown.map((drop, dIdx) => (
-                        <li key={dIdx}>
-                          <Link
-                            to={drop.link}
-                            onClick={onItemClick}
-                            className="block px-4 py-2 text-sm text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
-                          >
-                            {drop.name}
-                          </Link>
-                        </li>
-                      ))}
+                      {item?.dropdown?.length > 0 ? (
+                        item.dropdown.map((drop, dIdx) => (
+                          <li key={dIdx}>
+                            <Link
+                              to={drop.link}
+                              onClick={onItemClick}
+                              className="block px-4 py-2 text-sm text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
+                            >
+                              {drop.name}
+                            </Link>
+                          </li>
+                        ))
+                      ) : (
+                        <div>
+                          <li>
+                            <Link className="block px-4 py-2 text-sm text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors">
+                              {"No Data Found"}
+                            </Link>
+                          </li>
+                        </div>
+                      )}
                     </ul>
                   </motion.div>
                 )}

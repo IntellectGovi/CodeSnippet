@@ -12,60 +12,42 @@ import { Input } from "../../UI/Input";
 import { Textarea } from "../../UI/TextArea";
 import { useState } from "react";
 import { login } from "../../../services/Connections/auth";
+import { apiConnector } from "../../../services/apiConnector";
+import { endpoints } from "../../../services/apis";
+import { useDispatch } from "react-redux";
+import { notify } from "../../../Utils/Toaster";
+import { useLocalStorage } from "../../../Utils/useLocalStorage";
+import { useNavigate } from "react-router-dom";
+import { setUserData } from "../../../redux/slices/UserSlice";
+import { setToken } from "../../../redux/slices/authSlice";
 
 export default function Form({ type }) {
   const [userType, setUserType] = React.useState("student");
-  const [payload , setPayload] = useState({})
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const handleSubmit = async (e) => {
-
-    const formData = e.target;
-
-    console.log(e.target[0].value)
-    // debugger
-    
-    // if(type === "Login"){
-    //   const payload = {
-    //     email : e.target[0].value,
-    //     password : e.target[1].value
-    //   }
-
-    //   const response = await login(payload);
-    //   debugger
-    //   console.log("payload" , payload);
-    // }
-    if(type === "SignUp"){
-
-      try{
-        const otpMail = {
-          email : formData[2].value
-      }
-
-      
-      
-      }catch(e){
-
-      }
+    e.preventDefault();
+    if (type === "Login") {
       const payload = {
-        firstName : formData[0].value,
-        lastName : formData[1].value,
-        email : formData[2].value,
-        password : formData[3].value,
-        confirmPassword : formData[4].value,
-        accountType : userType,
+        email: e.target[0].value,
+        password: e.target[1].value,
+      };
 
+      debugger;
+      const response = await apiConnector(
+        "POST",
+        endpoints?.LOGIN_API,
+        payload
+      );
+      if (response?.data?.success) {
+        notify(response?.data?.message, "success");
+        dispatch(setUserData(response?.data?.user));
+        dispatch(setToken(response?.data?.token));
+        navigate("/dashboard");
+      } else {
+        debugger
+        notify(response?.data?.message, "error");
       }
-      console.log(payload);
-    }
-    debugger
-    if(type === "Login"){
-      const payload = {
-        email : e.target[0].value,
-        password : e.target[1].value
-      }
-
-      const response = await login(payload)
-      debugger
-
     }
   };
 
