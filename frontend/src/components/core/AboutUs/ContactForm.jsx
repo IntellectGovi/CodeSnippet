@@ -11,7 +11,7 @@ import { Label } from "../../UI/Label";
 import { Input } from "../../UI/Input";
 import { Textarea } from "../../UI/TextArea";
 import { useState } from "react";
-import { login } from "../../../services/Connections/auth";
+import { login, sendOTP } from "../../../services/Connections/auth";
 import { apiConnector } from "../../../services/apiConnector";
 import { endpoints } from "../../../services/apis";
 import { useDispatch } from "react-redux";
@@ -19,7 +19,7 @@ import { notify } from "../../../Utils/Toaster";
 import { useLocalStorage } from "../../../Utils/useLocalStorage";
 import { useNavigate } from "react-router-dom";
 import { setUserData } from "../../../redux/slices/UserSlice";
-import { setToken } from "../../../redux/slices/authSlice";
+import { setSignUpData, setToken } from "../../../redux/slices/authSlice";
 
 export default function Form({ type }) {
   const [userType, setUserType] = React.useState("student");
@@ -27,6 +27,7 @@ export default function Form({ type }) {
   const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
+    debugger;
     if (type === "Login") {
       const payload = {
         email: e.target[0].value,
@@ -45,9 +46,27 @@ export default function Form({ type }) {
         dispatch(setToken(response?.data?.token));
         navigate("/dashboard");
       } else {
-        debugger
+        debugger;
         notify(response?.data?.message, "error");
       }
+    }
+
+    if (type === "SignUp") {
+      console.log("e", e);
+      debugger;
+
+      const payload = {
+        firstName: e.target[0]?.value,
+        lastName: e.target[1]?.value,
+        email: e.target[2]?.value,
+        password: e.target[3]?.value,
+        confirmPassword: e.target[4]?.value,
+        accountType: userType,
+      };
+
+      dispatch(setSignUpData(payload));
+
+      dispatch(sendOTP(payload?.email, navigate));
     }
   };
 

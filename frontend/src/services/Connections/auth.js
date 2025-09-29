@@ -7,21 +7,24 @@ import { useDispatch } from "react-redux";
 import { setUserData } from "../../redux/slices/UserSlice";
 import { setToken } from "../../redux/slices/authSlice";
 
-export function sendOTP(email, path) {
-  const navigate = useNavigate();
+export function sendOTP(email, navigate) {
   return async (dispatch) => {
     try {
       dispatch(setLoading(true));
-      const response = await apiConnector("POST", endpoints?.SENDOTP_API);
-      if (!response?.data?.success) {
+      const response = await apiConnector("POST", endpoints?.SENDOTP_API, {
+        email,
+      });
+      debugger;
+      if (response?.data?.success) {
         dispatch(setLoading(false));
         notify(response?.data?.message, "success");
+        navigate("/verify-otp");
       } else {
-        notify("OTP Sent Successfully", success);
-        navigate(path);
+        notify(response?.data?.message, "error");
       }
-    } catch (e) {
-      console.error(e);
+    } catch (error) {
+      console.error(error);
+      notify(error, success);
       dispatch(setLoading(false));
     }
   };

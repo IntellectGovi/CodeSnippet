@@ -43,6 +43,8 @@ import { getAllCategory } from "./services/Connections/auth";
 import { notify } from "./Utils/Toaster";
 import { useLocalStorage } from "./Utils/useLocalStorage";
 import Dashboard from "./Pages/Dashboard";
+import VerifyOTP from "./Pages/VerifyOTP";
+import OtpLogin from "./components/core/otp/OtpLogin";
 
 function App() {
   const { cartItems } = useSelector((state) => state.cart);
@@ -361,6 +363,14 @@ function App() {
             <ProtectedRoute>
               <Dashboard />
             </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/verify-otp"
+          element={
+            // <ProtectedRoute>
+            <OtpLogin />
+            // </ProtectedRoute>
           }
         />
       </Routes>
