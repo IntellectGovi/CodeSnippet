@@ -1,5 +1,5 @@
 exports.passwordUpdated = (email, name) => {
-	return `<!DOCTYPE html>
+  return `<!DOCTYPE html>
     <html>
     
     <head>
@@ -56,7 +56,7 @@ exports.passwordUpdated = (email, name) => {
     <body>
         <div class="container">
             <a href="https://studynotion-edtech-project.vercel.app"><img class="logo"
-                    src="https://i.ibb.co/NNSF74W/Logo-Full-Dark.png" alt="PathShala Logo"></a>
+                    src="https://res.cloudinary.com/daflrftvk/image/upload/v1759231067/Logo_jtx3g0.svg" alt="PathShala Logo"></a>
             <div class="message">Password Update Confirmation</div>
             <div class="body">
                 <p>Hey ${name},</p>
@@ -66,7 +66,7 @@ exports.passwordUpdated = (email, name) => {
             </div>
             <div class="support">If you have any questions or need further assistance, please feel free to reach out to us
                 at
-                <a href="mailto:info@PathShala.com">info@PathShala.com</a>. We are here to help!
+                <a href="mailto:govind.upadhayay19@gmail.com">govind.upadhayay19@gmail.com</a>. We are here to help!
             </div>
         </div>
     </body>

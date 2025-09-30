@@ -291,7 +291,7 @@ exports.changePassword = async (req, res) => {
 
         // send email
         try {
-            const emailResponse = await mailSender(
+            await mailSender(
                 updatedUserDetails.email,
                 'Password for your account has been updated',
                 passwordUpdated(

@@ -1,8 +1,7 @@
 const { eventNames } = require("../../models/section");
 
-
 const otpTemplate = (otp, name) => {
-	return `<!DOCTYPE html>
+  return `<!DOCTYPE html>
 	<html>
 	
 	<head>
@@ -70,11 +69,11 @@ const otpTemplate = (otp, name) => {
 	<body>
 		<div class="container">
 			<a href=""><img class="logo"
-					src="https://i.ibb.co/NNSF74W/Logo-Full-Dark.png" alt="PathShala Logo"></a>
+					src="https://res.cloudinary.com/daflrftvk/image/upload/v1759231067/Logo_jtx3g0.svg" alt="Code Snippet Logo"></a>
 			<div class="message">OTP Verification Email</div>
 			<div class="body">
 				<p>Dear ${name}</p>
-				<p>Thank you for registering with PathShala. To complete your registration, please use the following OTP
+				<p>Thank you for registering with Code Snippet. To complete your registration, please use the following OTP
 					(One-Time Password) to verify your account:</p>
 				<h2 class="highlight">${otp}</h2>
 				<p>This OTP is valid for 3 minutes. If you did not request this verification, please disregard this email.
