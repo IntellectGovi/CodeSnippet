@@ -11,62 +11,91 @@ import { Label } from "../../UI/Label";
 import { Input } from "../../UI/Input";
 import { Textarea } from "../../UI/TextArea";
 import { useState } from "react";
-import { login, sendOTP } from "../../../services/Connections/auth";
+import {
+  login,
+  resetPasswordToken,
+  sendOTP,
+} from "../../../services/Connections/auth";
 import { apiConnector } from "../../../services/apiConnector";
 import { endpoints } from "../../../services/apis";
 import { useDispatch } from "react-redux";
 import { notify } from "../../../Utils/Toaster";
 import { useLocalStorage } from "../../../Utils/useLocalStorage";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { setUserData } from "../../../redux/slices/UserSlice";
 import { setSignUpData, setToken } from "../../../redux/slices/authSlice";
+import { setLoading } from "../../../redux/Slices/loadingSlice";
 
 export default function Form({ type }) {
-  const [userType, setUserType] = React.useState("student");
+  console.log("type", type);
+  const [userType, setUserType] = React.useState("Student");
+  const [step, setStep] = useState("otpSending");
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
-    debugger;
     if (type === "Login") {
       const payload = {
-        email: e.target[0].value,
+        email: e.target[0].value?.toLowerCase(),
         password: e.target[1].value,
       };
 
-      debugger;
-      const response = await apiConnector(
-        "POST",
-        endpoints?.LOGIN_API,
-        payload
-      );
-      if (response?.data?.success) {
-        notify(response?.data?.message, "success");
-        dispatch(setUserData(response?.data?.user));
-        dispatch(setToken(response?.data?.token));
-        navigate("/dashboard");
-      } else {
-        debugger;
-        notify(response?.data?.message, "error");
-      }
+      dispatch(login(payload, navigate));
     }
 
     if (type === "SignUp") {
-      console.log("e", e);
-      debugger;
-
+      debugger
+      if (
+        !e.target[0]?.value ||
+        !e.target[1]?.value ||
+        !e.target[2]?.value ||
+        !userType ||
+        !e.target[3]?.value ||
+        !e.target[4]?.value
+      ) {
+        notify("All Fields are required", "error");
+        return;
+      }
       const payload = {
         firstName: e.target[0]?.value,
         lastName: e.target[1]?.value,
-        email: e.target[2]?.value,
+        email: e.target[2]?.value?.toLowerCase(),
         password: e.target[3]?.value,
         confirmPassword: e.target[4]?.value,
         accountType: userType,
       };
 
       dispatch(setSignUpData(payload));
-
       dispatch(sendOTP(payload?.email, navigate));
+    }
+
+    if (type === "reset-password") {
+      try {
+        dispatch(setLoading(true));
+        if (e.target[0]?.value === "") {
+          dispatch(setLoading(false));
+
+          notify("Email is Required", "error");
+          return;
+        }
+        const payload = {
+          email: e.target[0]?.value?.toLowerCase(),
+        };
+        const response = await apiConnector(
+          "POST",
+          endpoints?.RESETPASSTOKEN_API,
+          payload
+        );
+        if (response?.data?.success) {
+          dispatch(setLoading(false));
+          notify(response?.data?.message, "success");
+          setStep("resendOtp");
+        }
+      } catch (error) {
+        dispatch(setLoading(false));
+        notify(error?.response?.data?.message, "error");
+        console.error("Error while Logging in ", error);
+      }
     }
   };
 
@@ -76,10 +105,10 @@ export default function Form({ type }) {
         <div className="mb-6 flex rounded-lg bg-gray-100 p-1 dark:bg-zinc-800">
           <button
             type="button"
-            onClick={() => setUserType("student")}
+            onClick={() => setUserType("Student")}
             className={cn(
               "flex-1 rounded-md px-4 py-2 text-sm font-medium transition-all duration-200",
-              userType === "student"
+              userType === "Student"
                 ? "bg-white text-black shadow-sm dark:bg-zinc-700 dark:text-white"
                 : "text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200"
             )}
@@ -88,10 +117,10 @@ export default function Form({ type }) {
           </button>
           <button
             type="button"
-            onClick={() => setUserType("instructor")}
+            onClick={() => setUserType("Instructor")}
             className={cn(
               "flex-1 rounded-md px-4 py-2 text-sm font-medium transition-all duration-200",
-              userType === "instructor"
+              userType === "Instructor"
                 ? "bg-white text-black shadow-sm dark:bg-zinc-700 dark:text-white"
                 : "text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200"
             )}
@@ -132,18 +161,18 @@ export default function Form({ type }) {
           <Label htmlFor="email">Email Address</Label>
           <Input id="email" placeholder="yourEmail@fc.com" type="email" />
         </LabelInputContainer>
-        {type === "Contact" ||
-          ("SignUp" && (
-            <LabelInputContainer className="mb-4">
-              <Label htmlFor="password">Password</Label>
-              <Input id="password" placeholder="••••••••" type="password" />
-            </LabelInputContainer>
-          ))}
+        {(type === "Login" || type === "SignUp") && (
+          <LabelInputContainer className="mb-4">
+            <Label htmlFor="password">Password</Label>
+            <Input id="password" placeholder="••••••••" type="password" />
+          </LabelInputContainer>
+        )}
+
         {type === "SignUp" && (
           <LabelInputContainer className="mb-4">
-            <Label htmlFor="twitterpassword">Your twitter password</Label>
+            <Label htmlFor="confirmPassword">Confirm password</Label>
             <Input
-              id="twitterpassword"
+              id="confirmPassword"
               placeholder="••••••••"
               type="password"
             />
@@ -159,6 +188,19 @@ export default function Form({ type }) {
             />
           </LabelInputContainer>
         )}
+        {type === "Login" && (
+          <Link
+            to="/forget-password"
+            style={{
+              position: "relative",
+              top: "-12px",
+              left: "110px",
+              color: "#8080ff",
+            }}
+          >
+            Forget Password ?
+          </Link>
+        )}
         <button
           className="group/btn relative block h-10 w-full rounded-md bg-gradient-to-br from-black to-neutral-600 font-medium text-white shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:bg-zinc-800 dark:from-zinc-900 dark:to-zinc-900 dark:shadow-[0px_1px_0px_0px_#27272a_inset,0px_-1px_0px_0px_#27272a_inset]"
           type="submit"
@@ -167,12 +209,13 @@ export default function Form({ type }) {
             Contact: "Send Message",
             SignUp: "Sign up",
             Login: "Log in",
+            "reset-password": "Reset Password",
           }[type] || ""}{" "}
           &rarr;
           <BottomGradient />
         </button>
 
-        {type === "SignUp" && (
+        {/* {type === "SignUp" && (
           <>
             <div className="my-8 h-[1px] w-full bg-gradient-to-r from-transparent via-neutral-300 to-transparent dark:via-neutral-700" />
 
@@ -209,7 +252,7 @@ export default function Form({ type }) {
               </button>
             </div>
           </>
-        )}
+        )} */}
       </form>
     </div>
   );

@@ -8,19 +8,13 @@ import Responsibility from "../assets/Images/random bg img/Team.jpg";
 import SolveProblem from "../assets/Images/random bg img/codePng.jpg";
 import { TypewriterEffectSmooth } from "../components/core/HomePage/TypeWritter";
 import { AnimatedTestimonials } from "../components/common/Testimonial";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const Home = () => {
-  
-
   return (
     <div className="relative w-full">
-
-
       {/* PAGE CONTENT */}
       <PageContent />
-
-
-      
     </div>
   );
 };
@@ -28,8 +22,7 @@ const Home = () => {
 export default Home;
 
 const PageContent = () => {
-
-
+  const navigate = useNavigate();
   const words = [
     {
       text: "Build",
@@ -48,7 +41,7 @@ const PageContent = () => {
       className: "text-black-500   dark:text-black-400",
     },
   ];
-   const testimonials = [
+  const testimonials = [
     {
       quote:
         "The attention to detail and innovative features have completely transformed our workflow. This is exactly what we've been looking for.",
@@ -88,8 +81,6 @@ const PageContent = () => {
 
   return (
     <div className="container mx-auto p-8 pt-24">
-
-
       {/* HERO SECTION */}
       <div className="md:py-20">
         <h1 className="relative z-10 mx-auto max-w-4xl text-center text-2xl font-bold text-slate-700 md:text-4xl lg:text-7xl dark:text-slate-300">
@@ -150,9 +141,13 @@ const PageContent = () => {
         </motion.div>
       </div>
 
-
       {/* INSTRUCTOR CALL TO ACTION */}
-      <div className=" flex justify-center text-center">
+      <div
+        className=" flex justify-center text-center"
+        onClick={() => {
+          navigate("/signUp");
+        }}
+      >
         <HoverBorderGradient
           containerClassName="rounded-full"
           as="button"
@@ -169,7 +164,7 @@ const PageContent = () => {
       </div>
 
       {/* TYPEWRITER TEXT */}
-       <div className="flex flex-col items-center justify-center h-[20rem]  ">
+      <div className="flex flex-col items-center justify-center h-[20rem]  ">
         <p className="text-neutral-600 dark:text-neutral-200 text-xs sm:text-base  ">
           The road to freedom starts from here
         </p>
@@ -184,117 +179,114 @@ const PageContent = () => {
         </div>
       </div>
 
-
       {/* CARDS */}
       <div className="w-full flex flex-col md:flex-row flex-wrap justify-center gap-6 md:gap-10">
-  <CometCard>
-    <button
-      type="button"
-      className="my-6 md:my-10 flex w-full max-w-xs cursor-pointer flex-col items-stretch rounded-[16px] border-0 bg-[#1F2121] p-2 saturate-0 md:p-4"
-      aria-label="View invite F7RA"
-      style={{
-        transformStyle: "preserve-3d",
-        transform: "none",
-        opacity: 1,
-      }}
-    >
-      <div className="mx-2 flex-4">
-        <div className="relative mt-2 aspect-[3/4] w-full">
-          <img
-            loading="lazy"
-            className="absolute inset-0 h-full w-full rounded-[16px] bg-[#000000] object-cover contrast-75"
-            alt="Invite background"
-            src={Leadership}
+        <CometCard>
+          <button
+            type="button"
+            className="my-6 md:my-10 flex w-full max-w-xs cursor-pointer flex-col items-stretch rounded-[16px] border-0 bg-[#1F2121] p-2 saturate-0 md:p-4"
+            aria-label="View invite F7RA"
             style={{
-              boxShadow: "rgba(0, 0, 0, 0.05) 0px 5px 6px 0px",
+              transformStyle: "preserve-3d",
+              transform: "none",
               opacity: 1,
             }}
-          />
-        </div>
-      </div>
-      <div className="mt-2 flex flex-shrink-0 items-center justify-between p-4 font-mono text-white">
-        <div className="text-xs">Leadership</div>
-        <div className="text-xs text-gray-300 opacity-50">
-          Fully committed to the success of the company
-        </div>
-      </div>
-    </button>
-  </CometCard>
+          >
+            <div className="mx-2 flex-4">
+              <div className="relative mt-2 aspect-[3/4] w-full">
+                <img
+                  loading="lazy"
+                  className="absolute inset-0 h-full w-full rounded-[16px] bg-[#000000] object-cover contrast-75"
+                  alt="Invite background"
+                  src={Leadership}
+                  style={{
+                    boxShadow: "rgba(0, 0, 0, 0.05) 0px 5px 6px 0px",
+                    opacity: 1,
+                  }}
+                />
+              </div>
+            </div>
+            <div className="mt-2 flex flex-shrink-0 items-center justify-between p-4 font-mono text-white">
+              <div className="text-xs">Leadership</div>
+              <div className="text-xs text-gray-300 opacity-50">
+                Fully committed to the success of the company
+              </div>
+            </div>
+          </button>
+        </CometCard>
 
-  <CometCard>
-    <button
-      type="button"
-      className="my-6 md:my-10 flex w-full max-w-xs cursor-pointer flex-col items-stretch rounded-[16px] border-0 bg-[#1F2121] p-2 saturate-0 md:p-4"
-      aria-label="View invite F7RA"
-      style={{
-        transformStyle: "preserve-3d",
-        transform: "none",
-        opacity: 1,
-      }}
-    >
-      <div className="mx-2 flex-4">
-        <div className="relative mt-2 aspect-[3/4] w-full">
-          <img
-            loading="lazy"
-            className="absolute inset-0 h-full w-full rounded-[16px] bg-[#000000] object-cover contrast-75"
-            alt="Invite background"
-            src={Responsibility}
+        <CometCard>
+          <button
+            type="button"
+            className="my-6 md:my-10 flex w-full max-w-xs cursor-pointer flex-col items-stretch rounded-[16px] border-0 bg-[#1F2121] p-2 saturate-0 md:p-4"
+            aria-label="View invite F7RA"
             style={{
-              boxShadow: "rgba(0, 0, 0, 0.05) 0px 5px 6px 0px",
+              transformStyle: "preserve-3d",
+              transform: "none",
               opacity: 1,
             }}
-          />
-        </div>
-      </div>
-      <div className="mt-2 flex flex-shrink-0 items-center justify-between p-4 font-mono text-white">
-        <div className="text-xs">Responsibility</div>
-        <div className="text-xs text-gray-300 opacity-50">
-          Students our top priority
-        </div>
-      </div>
-    </button>
-  </CometCard>
+          >
+            <div className="mx-2 flex-4">
+              <div className="relative mt-2 aspect-[3/4] w-full">
+                <img
+                  loading="lazy"
+                  className="absolute inset-0 h-full w-full rounded-[16px] bg-[#000000] object-cover contrast-75"
+                  alt="Invite background"
+                  src={Responsibility}
+                  style={{
+                    boxShadow: "rgba(0, 0, 0, 0.05) 0px 5px 6px 0px",
+                    opacity: 1,
+                  }}
+                />
+              </div>
+            </div>
+            <div className="mt-2 flex flex-shrink-0 items-center justify-between p-4 font-mono text-white">
+              <div className="text-xs">Responsibility</div>
+              <div className="text-xs text-gray-300 opacity-50">
+                Students our top priority
+              </div>
+            </div>
+          </button>
+        </CometCard>
 
-  <CometCard>
-    <button
-      type="button"
-      className="my-6 md:my-10 flex w-full max-w-xs cursor-pointer flex-col items-stretch rounded-[16px] border-0 bg-[#1F2121] p-2 saturate-0 md:p-4"
-      aria-label="View invite F7RA"
-      style={{
-        transformStyle: "preserve-3d",
-        transform: "none",
-        opacity: 1,
-      }}
-    >
-      <div className="mx-2 flex-4">
-        <div className="relative mt-2 aspect-[3/4] w-full">
-          <img
-            loading="lazy"
-            className="absolute inset-0 h-full w-full rounded-[16px] bg-[#000000] object-cover contrast-75"
-            alt="Invite background"
-            src={SolveProblem}
+        <CometCard>
+          <button
+            type="button"
+            className="my-6 md:my-10 flex w-full max-w-xs cursor-pointer flex-col items-stretch rounded-[16px] border-0 bg-[#1F2121] p-2 saturate-0 md:p-4"
+            aria-label="View invite F7RA"
             style={{
-              boxShadow: "rgba(0, 0, 0, 0.05) 0px 5px 6px 0px",
+              transformStyle: "preserve-3d",
+              transform: "none",
               opacity: 1,
             }}
-          />
-        </div>
+          >
+            <div className="mx-2 flex-4">
+              <div className="relative mt-2 aspect-[3/4] w-full">
+                <img
+                  loading="lazy"
+                  className="absolute inset-0 h-full w-full rounded-[16px] bg-[#000000] object-cover contrast-75"
+                  alt="Invite background"
+                  src={SolveProblem}
+                  style={{
+                    boxShadow: "rgba(0, 0, 0, 0.05) 0px 5px 6px 0px",
+                    opacity: 1,
+                  }}
+                />
+              </div>
+            </div>
+            <div className="mt-2 flex flex-shrink-0 items-center justify-between p-4 font-mono text-white">
+              <div className="text-xs">Solve the problem</div>
+              <div className="text-xs text-gray-300 opacity-50">
+                Code your way to a solution
+              </div>
+            </div>
+          </button>
+        </CometCard>
       </div>
-      <div className="mt-2 flex flex-shrink-0 items-center justify-between p-4 font-mono text-white">
-        <div className="text-xs">Solve the problem</div>
-        <div className="text-xs text-gray-300 opacity-50">
-          Code your way to a solution
-        </div>
-      </div>
-    </button>
-  </CometCard>
-</div>
-
-
 
       {/* TESTIMONIALS */}
       <div>
-        <AnimatedTestimonials testimonials={testimonials}/>
+        <AnimatedTestimonials testimonials={testimonials} />
       </div>
     </div>
   );

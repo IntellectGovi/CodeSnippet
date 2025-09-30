@@ -7,7 +7,7 @@ module.exports = {
       inter: ["Inter", "sans-serif"],
       "edu-sa": ["Edu SA Beginner", "cursive"],
       mono: ["Roboto Mono", "monospace"],
-      boogaloo: ['Boogaloo', "sans-serif"]
+      boogaloo: ["Boogaloo", "sans-serif"],
     },
     colors: {
       white: "#fff",
@@ -127,9 +127,36 @@ module.exports = {
       },
     },
     extend: {
+      keyframes: {
+        fire: {
+          "0%, 100%": {
+            transform: "scale(1) translateY(0px)",
+            opacity: "0.7",
+            filter: "hue-rotate(0deg)",
+          },
+          "25%": {
+            transform: "scale(1.05) translateY(-2px)",
+            opacity: "0.9",
+            filter: "hue-rotate(-15deg)",
+          },
+          "50%": {
+            transform: "scale(0.95) translateY(2px)",
+            opacity: "0.8",
+            filter: "hue-rotate(15deg)",
+          },
+          "75%": {
+            transform: "scale(1.1) translateY(-1px)",
+            opacity: "1",
+            filter: "hue-rotate(-10deg)",
+          },
+        },
+      },
+      animation: {
+        fire: "fire 1.5s infinite ease-in-out",
+      },
       maxWidth: {
         maxContent: "1260px",
-        maxContentTab: "650px"
+        maxContentTab: "650px",
       },
     },
   },

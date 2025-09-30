@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Zalando+Sans+SemiExpanded:ital,wght@0,200..900;1,200..900&display=swap");
 @import "tailwindcss";
 
 /* For Chrome, Safari, Edge */
@@ -27,4 +28,53 @@ body {
   padding: 12px;
   position: relative;
   top: 62px;
+}
+
+@keyframes blob {
+  0% {
+    transform: translate(0px, 0px) scale(1);
+  }
+  33% {
+    transform: translate(200px, -100px) scale(1.2);
+  }
+  66% {
+    transform: translate(-150px, 150px) scale(0.8);
+  }
+  100% {
+    transform: translate(0px, 0px) scale(1);
+  }
+}
+
+.animate-blob {
+  animation: blob 20s infinite ease-in-out;
+}
+
+.laoding-message {
+  font-family: "Zalando Sans SemiExpanded", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.loader {
+  display: inline-grid;
+  padding: 5px;
+  background: #000000;
+  filter: blur(4px) contrast(12);
+}
+.loader:before {
+  content: "";
+  height: 40px;
+  aspect-ratio: 3;
+  --c: #000000 64%, #ffffff 66% 98%, #ffffff00 101%;
+  background: radial-gradient(35% 146% at 50% 159%, var(--c)) 0 0,
+    radial-gradient(35% 146% at 50% -59%, var(--c)) 100% 100%;
+  background-size: calc(200% / 3) 50%;
+  background-repeat: repeat-x;
+  animation: l11 0.8s infinite linear;
+}
+@keyframes l11 {
+  to {
+    background-position: -200% 0, -100% 100%;
+  }
 }

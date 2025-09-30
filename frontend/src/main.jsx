@@ -14,7 +14,7 @@ if (process.env.NODE_ENV === "development") {
 }
 
 function Root() {
-  const loading = useSelector((state) => state.loading);
+  const loading = useSelector((state) => state.loading.loading);
 
   return (
     <div>

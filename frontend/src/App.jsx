@@ -3,8 +3,8 @@ import {
   Routes,
   Route,
   useNavigate,
-  useNavigation,
   Link,
+  useLocation,
 } from "react-router-dom";
 import Home from "./Pages/Home";
 import About from "./Pages/About";
@@ -19,7 +19,7 @@ import {
   MobileNavToggle,
   MobileNavMenu,
 } from "../src/components/common/Navbar";
-import { Children, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { MainFooter } from "./components/common/MainFooter";
 import Contact from "./Pages/Contact";
 import Login from "./Pages/Login";
@@ -37,18 +37,19 @@ import {
   IconSettings,
   IconShoppingBag,
   IconShoppingCart,
-  IconUser,
 } from "@tabler/icons-react";
 import { getAllCategory } from "./services/Connections/auth";
 import { notify } from "./Utils/Toaster";
 import { useLocalStorage } from "./Utils/useLocalStorage";
 import Dashboard from "./Pages/Dashboard";
-import VerifyOTP from "./Pages/VerifyOTP";
 import OtpLogin from "./components/core/otp/OtpLogin";
+import SendResetMail from "./Pages/SendResetMail";
+import Form from "./components/core/AboutUs/ContactForm";
+import ResetPassword from "./Pages/ResetPassword";
 
 function App() {
   const { cartItems } = useSelector((state) => state.cart);
-
+  const location = useLocation();
   const token = useLocalStorage("token", "get");
   const userData = useLocalStorage("userData", "get");
   const [catalogList, setCatalogList] = useState([]);
@@ -78,7 +79,6 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [isLoadedOnce, setIsLoadedOnce] = useState(false);
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
-  console.log("isProfileDropdown", isProfileDropdownOpen);
 
   const categoryResponse = async () => {
     try {
@@ -86,7 +86,6 @@ function App() {
 
       if (response?.data?.success) {
         setCatalogList(response?.data?.data);
-        // notify("Response is here", "success");
       } else {
         notify("Error Occured while fetching the Category", "error");
       }
@@ -365,19 +364,19 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route path="/verify-otp" element={<OtpLogin />} />
         <Route
-          path="/verify-otp"
-          element={
-            // <ProtectedRoute>
-            <OtpLogin />
-            // </ProtectedRoute>
-          }
+          path="/forget-password"
+          element={<Form type="reset-password" />}
         />
+        <Route path="/update-password/:id" element={<SendResetMail/>} />
       </Routes>
       {/* FOOTER */}
-      <div style={{ position: "relative", marginBottom: "0px" }}>
-        <MainFooter />
-      </div>
+      {!location.pathname === "/dashboard" && (
+        <div style={{ position: "relative", marginBottom: "0px" }}>
+          <MainFooter />
+        </div>
+      )}
     </>
   );
 }
