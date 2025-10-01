@@ -354,8 +354,8 @@ function App() {
         </>
         <Route path="/aboutUs" element={<About />} />
         <Route path="/contact" element={<Contact />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<SignUp />} />
+        {/* <Route path="/login" element={<Login />} /> */}
+        {/* <Route path="/signup" element={<SignUp />} /> */}
         <Route
           path="/dashboard"
           element={
@@ -364,12 +364,28 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/login"
+          element={
+            <OpenRoute>
+              <Login />
+            </OpenRoute>
+          }
+        />
+        <Route
+          path="/signup"
+          element={
+            <OpenRoute>
+              <SignUp />
+            </OpenRoute>
+          }
+        />
         <Route path="/verify-otp" element={<OtpLogin />} />
         <Route
           path="/forget-password"
           element={<Form type="reset-password" />}
         />
-        <Route path="/update-password/:id" element={<SendResetMail/>} />
+        <Route path="/update-password/:id" element={<SendResetMail />} />
       </Routes>
       {/* FOOTER */}
       {!location.pathname === "/dashboard" && (
@@ -388,6 +404,14 @@ const ProtectedRoute = ({ children }) => {
   if (!useLocalStorage("token", "get")) {
     notify("UnAuthorized Access", "error");
     navigate("/");
+  } else {
+    return children;
+  }
+};
+const OpenRoute = ({ children }) => {
+  const navigate = useNavigate();
+  if (useLocalStorage("token", "get")) {
+    navigate("/dashboard");
   } else {
     return children;
   }
