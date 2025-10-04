@@ -3,7 +3,6 @@
 import { useState } from "react";
 import "../../styles/sidebar.css";
 
-
 const erpMenuData = [
   {
     title: "Dashboard",
@@ -12,101 +11,27 @@ const erpMenuData = [
     isActive: true,
   },
   {
-    title: "New Admission",
+    title: "My Profile",
     icon: "🛒",
-    items: [
-      { title: "Application Form", url: "/sales/leads", icon: "🎯" },
-      { title: "View Document", url: "/sales/opportunities", icon: "📈" },
-      { title: "New Admission Status", url: "/sales/quotes", icon: "📄" },
-      { title: "Orders", url: "/sales/orders", icon: "🛍️" },
-      { title: "Invoices", url: "/sales/invoices", icon: "🧾" },
-      { title: "Sales Reports", url: "/sales/reports", icon: "📊" },
-    ],
   },
   {
-    title: "New Admission Report",
+    title: "Dashboard",
     icon: "🛒",
-    items: [
-      { title: "Application Form", url: "/sales/leads", icon: "🎯" },
-      { title: "View Document", url: "/sales/opportunities", icon: "📈" },
-      { title: "New Admission Status", url: "/sales/quotes", icon: "📄" },
-      { title: "Orders", url: "/sales/orders", icon: "🛍️" },
-      { title: "Invoices", url: "/sales/invoices", icon: "🧾" },
-      { title: "Sales Reports", url: "/sales/reports", icon: "📊" },
-    ],
   },
   {
-    title: "Inventory Management",
+    title: "My Courses",
     icon: "📦",
-    items: [
-      { title: "Products", url: "/inventory/products", icon: "📦" },
-      { title: "Stock Levels", url: "/inventory/stock", icon: "🏪" },
-      {
-        title: "Purchase Orders",
-        url: "/inventory/purchase-orders",
-        icon: "🛒",
-      },
-      { title: "Suppliers", url: "/inventory/suppliers", icon: "🚚" },
-      { title: "Stock Reports", url: "/inventory/reports", icon: "📊" },
-    ],
   },
   {
-    title: "Financial Management",
+    title: "Add Courses",
     icon: "💰",
-    items: [
-      { title: "Accounts", url: "/finance/accounts", icon: "🧮" },
-      { title: "Transactions", url: "/finance/transactions", icon: "💳" },
-      { title: "Budget Planning", url: "/finance/budget", icon: "📊" },
-      { title: "Tax Management", url: "/finance/tax", icon: "🧾" },
-      { title: "Financial Reports", url: "/finance/reports", icon: "📊" },
-      { title: "Payments", url: "/finance/payments", icon: "💵" },
-    ],
-  },
-  {
-    title: "Human Resources",
-    icon: "👥",
-    items: [
-      { title: "Employees", url: "/hr/employees", icon: "👥" },
-      { title: "Recruitment", url: "/hr/recruitment", icon: "👤" },
-      { title: "Attendance", url: "/hr/attendance", icon: "⏰" },
-      { title: "Payroll", url: "/hr/payroll", icon: "💰" },
-      { title: "Performance", url: "/hr/performance", icon: "🏆" },
-      { title: "Leave Management", url: "/hr/leave", icon: "📅" },
-    ],
-  },
-  {
-    title: "Customer Management",
-    icon: "👤",
-    items: [
-      { title: "Customers", url: "/customers/list", icon: "👥" },
-      { title: "Customer Support", url: "/customers/support", icon: "🎧" },
-      { title: "Service Tickets", url: "/customers/tickets", icon: "🎫" },
-      { title: "Customer Reports", url: "/customers/reports", icon: "📊" },
-    ],
-  },
-  {
-    title: "Reports & Analytics",
-    icon: "📊",
-    items: [
-      { title: "Sales Analytics", url: "/reports/sales", icon: "📈" },
-      { title: "Financial Reports", url: "/reports/financial", icon: "📊" },
-      { title: "Inventory Reports", url: "/reports/inventory", icon: "📦" },
-      { title: "HR Analytics", url: "/reports/hr", icon: "👥" },
-      { title: "Custom Reports", url: "/reports/custom", icon: "📄" },
-    ],
   },
 ];
 
 const systemMenuData = [
   {
-    title: "System Settings",
+    title: "Settings",
     icon: "⚙️",
-    items: [
-      { title: "General Settings", url: "/settings/general", icon: "🔧" },
-      { title: "User Management", url: "/settings/users", icon: "👥" },
-      { title: "Data Backup", url: "/settings/backup", icon: "💾" },
-      { title: "Security", url: "/settings/security", icon: "🛡️" },
-    ],
   },
 ];
 
@@ -135,20 +60,6 @@ export function AppSidebar() {
               <span className="sidebar-menu-icon">{item.icon}</span>
               <span>{item.title}</span>
             </div>
-            <span
-              className={`expand-icon ${isExpanded ? "expanded" : "collapsed"}`}
-            >
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-              >
-                <polyline points="6,9 12,15 18,9"></polyline>
-              </svg>
-            </span>
           </button>
           <div
             className={`collapsible-content ${isExpanded ? "open" : "closed"}`}
@@ -185,8 +96,8 @@ export function AppSidebar() {
   };
 
   return (
-    <div className="sidebar">
-      <div className="sidebar-header">
+    <div className="sidebar" style={{background:"black"}}>  
+      {/* <div className="sidebar-header">
         <a href="#" className="sidebar-brand">
           <div className="sidebar-brand-icon">
             <svg
@@ -211,9 +122,9 @@ export function AppSidebar() {
             <span className="sidebar-brand-subtitle">Management System</span>
           </div>
         </a>
-      </div>
+      </div> */}
 
-      <div className="sidebar-content">
+      <div className="sidebar-content mt-[23vh]">
         <div className="sidebar-group">
           <ul className="sidebar-menu">
             {erpMenuData.slice(0, 1).map(renderMenuItem)}
@@ -233,7 +144,7 @@ export function AppSidebar() {
         </div>
       </div>
 
-      <div className="sidebar-footer">
+      {/* <div className="sidebar-footer">
         <a href="#" className="sidebar-user">
           <div className="avatar sidebar-user-avatar">
             <img
@@ -245,12 +156,14 @@ export function AppSidebar() {
           </div>
           <div className="sidebar-user-info">
             <span className="sidebar-user-name">Admin(Govind)</span>
-            <span className="sidebar-user-email">Govind.upadhyay@gmail.com</span>
+            <span className="sidebar-user-email">
+              Govind.upadhyay@gmail.com
+            </span>
           </div>
           <div className="badge badge-outline sidebar-user-badge">Pro</div>
         </a>
       </div>
-      <div className="sidebar-rail"></div>
+      <div className="sidebar-rail"></div> */}
     </div>
   );
 }

@@ -16,11 +16,7 @@ export default function Dashboard() {
       className="sidebar-provider"
       style={{ background: "black", color: "white" }}
     >
-      <div
-        className={`sidebar-container ${
-          isVisible ? "sidebar-visible" : "sidebar-hidden"
-        }`}
-      >
+      <div className="sidebar-container">
         <AppSidebar />
       </div>
 
