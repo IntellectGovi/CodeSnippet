@@ -245,7 +245,7 @@ export function AppSidebar() {
           </div>
           <div className="sidebar-user-info">
             <span className="sidebar-user-name">Admin(Govind)</span>
-            <span className="sidebar-user-email">govind@company.com</span>
+            <span className="sidebar-user-email">Govind.upadhyay@gmail.com</span>
           </div>
           <div className="badge badge-outline sidebar-user-badge">Pro</div>
         </a>

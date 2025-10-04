@@ -12,7 +12,10 @@ export default function Dashboard() {
   const isMobile = window.innerWidth <= 768;
 
   return (
-    <div className="sidebar-provider">
+    <div
+      className="sidebar-provider"
+      style={{ background: "black", color: "white" }}
+    >
       <div
         className={`sidebar-container ${
           isVisible ? "sidebar-visible" : "sidebar-hidden"
