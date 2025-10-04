@@ -110,7 +110,7 @@ function App() {
 
   return (
     <>
-      {!location.pathname === "/dashboard" && (
+     (
         <div style={{ position: "relative", marginBottom: "0px" }}>
           <Navbar>
             {/* Desktop Navigation */}
@@ -355,7 +355,7 @@ function App() {
             </MobileNav>
           </Navbar>
         </div>
-      )}
+      )
 
       {loading && <Preloader onComplete={() => setLoading(false)} />}
       <Routes>

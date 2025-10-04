@@ -23,7 +23,7 @@ app.use(express.json()); // to parse json body
 app.use(cookieParser());
 app.use(
     cors({
-        origin: 'http://localhost:5173', // frontend link
+        origin: 'http://codesnippet.co.in.s3-website.ap-south-1.amazonaws.com/', // frontend link
         origin: "*",
         credentials: true
     })

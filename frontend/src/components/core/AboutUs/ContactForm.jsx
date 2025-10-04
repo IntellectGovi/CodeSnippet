@@ -44,7 +44,7 @@ export default function Form({ type }) {
     }
 
     if (type === "SignUp") {
-      debugger
+      
       if (
         !e.target[0]?.value ||
         !e.target[1]?.value ||
