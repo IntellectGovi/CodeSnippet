@@ -110,7 +110,7 @@ function App() {
 
   return (
     <>
-      {!location.pathname === "/dashboard" && (
+      {location.pathname === "/dashboard" && (
         <div style={{ position: "relative", marginBottom: "0px" }}>
           <Navbar>
             {/* Desktop Navigation */}
