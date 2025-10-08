@@ -222,9 +222,10 @@
 
 /* Card Styles */
 .card {
-  background: white;
+  color: white;
+  background: black;
   border-radius: 0.5rem;
-  border: 1px solid #e5e7eb;
+  /* border: 1px solid #e5e7eb; */
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
   transition: all 0.2s ease;
 }
@@ -240,7 +241,7 @@
 .card-title {
   font-size: 1.125rem;
   font-weight: 600;
-  color: #111827;
+  color: white;
   margin-bottom: 0.25rem;
 }
 

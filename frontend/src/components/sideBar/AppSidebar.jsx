@@ -5,23 +5,17 @@ import "../../styles/sidebar.css";
 
 const erpMenuData = [
   {
-    title: "Dashboard",
-    icon: "🏠",
-    url: "/dashboard",
-    isActive: true,
-  },
-  {
     title: "My Profile",
     url: "/dashboard/profile",
-    icon: "🛒",
+    icon: "🏠",
   },
   {
-    title: "My Courses",
+    title: "Enrolled Courses",
     url: "/dashboard/myCourse",
     icon: "📦",
   },
   {
-    title: "Add Courses",
+    title: "Purchase Courses",
     url: "/dashboard/addCourse",
     icon: "💰",
   },
@@ -31,6 +25,10 @@ const systemMenuData = [
   {
     title: "Settings",
     icon: "⚙️",
+  },
+  {
+    title: "Logout",
+    icon: "☢️",
   },
 ];
 
@@ -131,7 +129,7 @@ export function AppSidebar() {
         </div>
 
         <div className="sidebar-group">
-          <div className="sidebar-group-label">ERP Modules</div>
+          <div className="sidebar-group-label"> Modules</div>
           <ul className="sidebar-menu">
             {erpMenuData.slice(1).map(renderMenuItem)}
           </ul>
