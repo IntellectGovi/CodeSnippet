@@ -12,18 +12,17 @@ const erpMenuData = [
   },
   {
     title: "My Profile",
-    icon: "🛒",
-  },
-  {
-    title: "Dashboard",
+    url: "/dashboard/profile",
     icon: "🛒",
   },
   {
     title: "My Courses",
+    url: "/dashboard/myCourse",
     icon: "📦",
   },
   {
     title: "Add Courses",
+    url: "/dashboard/addCourse",
     icon: "💰",
   },
 ];
@@ -96,7 +95,7 @@ export function AppSidebar() {
   };
 
   return (
-    <div className="sidebar" style={{background:"black"}}>  
+    <div className="sidebar" style={{ background: "black" }}>
       {/* <div className="sidebar-header">
         <a href="#" className="sidebar-brand">
           <div className="sidebar-brand-icon">
