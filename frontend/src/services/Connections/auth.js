@@ -7,7 +7,7 @@ import { setToken } from "../../redux/slices/authSlice";
 
 export function sendOTP(email, navigate) {
   return async (dispatch) => {
-    debugger;
+    ;
     try {
       dispatch(setLoading(true));
       const response = await apiConnector("POST", endpoints?.SENDOTP_API, {
@@ -31,7 +31,7 @@ export function sendOTP(email, navigate) {
 export function signup(payload, navigate) {
   return async (dispatch) => {
     dispatch(setLoading(true));
-    debugger;
+    ;
     try {
       const response = await apiConnector(
         "POST",

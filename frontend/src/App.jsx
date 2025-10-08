@@ -110,8 +110,7 @@ function App() {
 
   return (
     <>
-      {location.pathname === "/dashboard" && (
-        <div style={{ position: "relative", marginBottom: "0px" }}>
+        <div style={{ position: "sticky", top: "0px" , zIndex:"10000"}}>
           <Navbar>
             {/* Desktop Navigation */}
             <NavBody>
@@ -204,11 +203,11 @@ function App() {
                         {/* Menu Items */}
                         <div className="p-2">
                           <a
-                            href="#"
+                            href="/dashboard"
                             className="flex items-center gap-3 px-3 py-2 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-md transition-colors"
                           >
                             <IconActivity size={20} />
-                            <span>Profile Activity</span>
+                            <span>Dashboard</span>
                           </a>
                           <a
                             href="#"
@@ -355,7 +354,6 @@ function App() {
             </MobileNav>
           </Navbar>
         </div>
-      )}
 
       {loading && <Preloader onComplete={() => setLoading(false)} />}
       <Routes>

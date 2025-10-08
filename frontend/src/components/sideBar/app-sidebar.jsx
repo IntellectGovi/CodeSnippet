@@ -179,7 +179,7 @@ export function AppSidebar({ ...props }) {
 
         {/* ERP Modules */}
         <SidebarGroup>
-          <SidebarGroupLabel>ERP Modules</SidebarGroupLabel>
+          <SidebarGroupLabel></SidebarGroupLabel>
           <SidebarMenu>
             {erpMenuData.slice(1).map((item, index) => (
               <Collapsible key={item.title} defaultOpen={index === 0} className="group/collapsible">

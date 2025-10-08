@@ -5,23 +5,22 @@ import { AppSidebar } from "../components/sideBar/AppSidebar";
 import { DashboardStats } from "../components/sideBar/DashboardStats";
 import { RecentActivities } from "../components/sideBar/RecentActivity";
 import { Menu } from "lucide-react";
-import "../styles/dashboard.css"
+import "../styles/dashboard.css";
 
 export default function Dashboard() {
   const [isVisible, setIsVisible] = useState(true);
   const isMobile = window.innerWidth <= 768;
 
   return (
-    <div className="sidebar-provider">
-      <div
-        className={`sidebar-container ${
-          isVisible ? "sidebar-visible" : "sidebar-hidden"
-        }`}
-      >
+    <div
+      className="sidebar-provider"
+      style={{ background: "black", color: "white" }}
+    >
+      <div className="sidebar-container">
         <AppSidebar />
       </div>
 
-      <div
+      {/* <div
         className={`sidebar-inset ${isVisible ? "with-sidebar" : "full-width"}`}
       >
         <header className="header">
@@ -37,10 +36,8 @@ export default function Dashboard() {
               </>
             )}
             <nav className="breadcrumb">
-              <a href="#" className="breadcrumb-link">
-                ERP System
-              </a>
-              <span className="breadcrumb-separator">/</span>
+              <a href="#" className="breadcrumb-link"></a>
+              <span className="breadcrumb-separator"></span>
               <span className="breadcrumb-current">Dashboard</span>
             </nav>
           </div>
@@ -221,7 +218,7 @@ export default function Dashboard() {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }
