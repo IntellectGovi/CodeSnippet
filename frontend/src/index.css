@@ -78,3 +78,90 @@ body {
     background-position: -200% 0, -100% 100%;
   }
 }
+
+.dashboard-about {
+  margin-top: 30px;
+  background-color: white;
+  min-height: 12vh !important;
+  width: 70%;
+  border-radius: 12px;
+  padding: 23px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.dashboard-logo {
+  padding: 12px;
+  background-color: red;
+  width: 45px;
+  border-radius: 100%;
+  color: white;
+}
+
+.flex-class {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.main-font {
+  font-size: larger;
+  font-weight: 600;
+}
+
+.dashboard-content {
+  width: 70vw;
+  margin-left: 25px;
+}
+
+.dashboard-mail {
+  color: grey;
+  font-size: small;
+  font-weight: 400;
+  text-align: left;
+}
+
+.custom-button {
+  width: 10rem;
+  height: 2.5rem;
+  border-radius: 0.75rem;
+  background-color: black;
+  border-width: 1px;
+  border-color: transparent;
+  color: white;
+  font-size: 0.875rem;
+}
+
+.labelPicker {
+  position: absolute;
+  background-color: white;
+  top: -5px !important;
+  /* padding: 5px 3px !important; */
+  padding: 5px 3px !important;
+  line-height: 3px;
+  left: 12px;
+  font-size: 9px !important;
+  font-weight: bolder !important;
+  /* margin-bottom: 0px !important; */
+}
+
+.labelPicker::placeholder {
+  padding: 10px !important;
+}
+
+.valueName {
+  font-size: 12px !important;
+  text-align: left;
+  /* color: #5f5f5f !important; */
+  border: 1px solid #ced4da;
+  padding: 6px;
+  margin-top: -1px;
+  border-radius: 3px;
+  min-height: 25px;
+  cursor: no-drop;
+  background-color: rgb(243, 243, 243);
+  /* margin-top: 5px !important; */
+}
