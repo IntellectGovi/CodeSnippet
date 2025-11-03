@@ -6,7 +6,7 @@ import "../../styles/sidebar.css";
 const erpMenuData = [
   {
     title: "My Profile",
-    url: "/dashboard/profile",
+    url: "/dashboard",
     icon: "🏠",
   },
   {
@@ -24,10 +24,12 @@ const erpMenuData = [
 const systemMenuData = [
   {
     title: "Settings",
+    url: "/dashboard/settings",
     icon: "⚙️",
   },
   {
     title: "Logout",
+    url: "/dashboard/logout",
     icon: "☢️",
   },
 ];
