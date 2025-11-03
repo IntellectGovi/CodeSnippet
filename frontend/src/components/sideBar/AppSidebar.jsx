@@ -31,6 +31,7 @@ const systemMenuData = [
     title: "Logout",
     url: "/dashboard/logout",
     icon: "☢️",
+    isModal: true,
   },
 ];
 
@@ -46,13 +47,23 @@ export function AppSidebar() {
     }));
   };
 
+  const path = window.location.pathname;
+  console.log("path", path);
+
   const renderMenuItem = (item) => {
     if (item.items) {
       const isExpanded = expandedItems[item.title];
       return (
-        <li key={item.title} className="sidebar-menu-item">
+        <li
+          key={item.title}
+          className={
+            // item?.url === path
+            "active-sideMenu sidebar-menu-item"
+            // : "sidebar-menu-item"
+          }
+        >
           <button
-            className="sidebar-menu-button collapsible-trigger"
+            className="sidebar-menu-button active-sideMenu collapsible-trigger"
             onClick={() => toggleExpanded(item.title)}
           >
             <div className="flex items-center gap-2">
@@ -83,13 +94,15 @@ export function AppSidebar() {
 
     return (
       <li key={item.title} className="sidebar-menu-item">
-        <a
+        {item?.isModal ? ""  : <a
           href={item.url}
-          className={`sidebar-menu-button ${item.isActive ? "active" : ""}`}
+          className={`sidebar-menu-button  mt-2 ${
+            item.url === path ? "active-sideMenu" : ""
+          }`}
         >
           <span className="sidebar-menu-icon">{item.icon}</span>
           <span>{item.title}</span>
-        </a>
+        </a>}
       </li>
     );
   };
@@ -125,7 +138,7 @@ export function AppSidebar() {
 
       <div className="sidebar-content mt-[23vh]">
         <div className="sidebar-group">
-          <ul className="sidebar-menu" style={{color:"white"}}>
+          <ul className="sidebar-menu " style={{ color: "white" }}>
             {erpMenuData.slice(0, 1).map(renderMenuItem)}
           </ul>
         </div>
@@ -137,7 +150,7 @@ export function AppSidebar() {
           </ul>
         </div>
 
-        <div className="sidebar-group" style={{color:"white"}}>
+        <div className="sidebar-group" style={{ color: "white" }}>
           <div className="sidebar-group-label">System</div>
           <ul className="sidebar-menu">{systemMenuData.map(renderMenuItem)}</ul>
         </div>

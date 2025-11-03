@@ -86,3 +86,9 @@ body {
   background-color: white;
   width: 151px;
 }
+
+.active-sideMenu {
+  background-color: #d4d1c9 !important;
+  color: black !important;
+  border-left: 4px solid yellow !important;
+}
