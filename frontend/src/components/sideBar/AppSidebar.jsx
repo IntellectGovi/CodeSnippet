@@ -125,7 +125,7 @@ export function AppSidebar() {
 
       <div className="sidebar-content mt-[23vh]">
         <div className="sidebar-group">
-          <ul className="sidebar-menu">
+          <ul className="sidebar-menu" style={{color:"white"}}>
             {erpMenuData.slice(0, 1).map(renderMenuItem)}
           </ul>
         </div>
@@ -137,7 +137,7 @@ export function AppSidebar() {
           </ul>
         </div>
 
-        <div className="sidebar-group">
+        <div className="sidebar-group" style={{color:"white"}}>
           <div className="sidebar-group-label">System</div>
           <ul className="sidebar-menu">{systemMenuData.map(renderMenuItem)}</ul>
         </div>
