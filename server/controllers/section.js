@@ -58,7 +58,6 @@ exports.createSection = async (req, res) => {
     }
 }
 
-
 // ================ update Section ================
 exports.updateSection = async (req, res) => {
     try {
@@ -100,8 +99,6 @@ exports.updateSection = async (req, res) => {
         })
     }
 }
-
-
 
 // ================ Delete Section ================
 exports.deleteSection = async (req, res) => {
